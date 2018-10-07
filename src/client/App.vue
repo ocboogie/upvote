@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-    <login v-if="stage === 'signedOut'" />
-    <template v-else>
-      <post-form />
-      <posts />
-    </template>
+    <transition name="login-fade">
+      <login class="login" v-if="stage === 'signedOut'" />
+      <div v-else>
+        <post-form />
+        <posts />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -25,6 +27,27 @@ export default {
   })
 };
 </script>
+
+<style lang="scss" scoped>
+.login {
+  background-color: $white;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+}
+.login-fade-leave-active {
+  transition: transform 0.25s cubic-bezier(0.7, 0, 1, 1),
+    opacity 0.1s linear 0.1s;
+}
+
+.login-fade-leave-to {
+  transform: translateY(100vh);
+  opacity: 0;
+}
+</style>
+
 
 <style lang="scss">
 #app {
