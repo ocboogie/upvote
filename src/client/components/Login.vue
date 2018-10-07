@@ -55,7 +55,7 @@ export default {
     onSubmit(e) {
       e.preventDefault();
       if (!this.name) {
-        this.setError("You can't have an empty name.");
+        this.setError("You must enter a name.");
         return;
       }
       this.login(this.name);
