@@ -1,0 +1,13 @@
+{
+  "extends": ["airbnb-base", "prettier", "plugin:vue/recommended"],
+  "parser": "vue-eslint-parser",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "prettier/prettier": "error"
+  },
+  "plugins": ["prettier"],
+  "root": true
+}
