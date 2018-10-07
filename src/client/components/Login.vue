@@ -16,6 +16,7 @@
         class="name-input" 
         :class="{'is-error': Boolean(error)}" 
         placeholder="Name"
+        autocomplete="off"
       />
       <transition name="scale-fade">
         <span 
