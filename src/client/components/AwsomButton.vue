@@ -21,16 +21,21 @@
   padding: 12px 20px;
   font-size: 14px;
   border-radius: 4px;
-  &:hover,
-  &:focus {
-    background: lighten($primary-color, 7%);
-    border-color: lighten($primary-color, 9%);
+  &:disabled {
+    cursor: default;
+    background: mix($white, $primary-color, 50%);
+    border: 1px solid mix($white, $primary-color, 50%);
   }
-  &:active {
-    background: darken($primary-color, 10%);
-    border-color: darken($primary-color, 10%);
-    /* background: #3a8ee6;
-    border-color: #3a8ee6; */
+  &:not(:disabled) {
+    &:hover,
+    &:focus {
+      background: lighten($primary-color, 7%);
+      border-color: lighten($primary-color, 9%);
+    }
+    &:active {
+      background: darken($primary-color, 10%);
+      border-color: darken($primary-color, 10%);
+    }
   }
 }
 </style>
