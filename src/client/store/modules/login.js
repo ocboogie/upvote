@@ -3,7 +3,7 @@ import { emit } from "../../socket";
 
 export default {
   state: {
-    stage: "signedOut",
+    stage: "connecting",
     name: null,
     error: null
   },
@@ -22,6 +22,9 @@ export default {
     login(context, name) {
       context.commit("setName", name);
       emit("login", name);
+    },
+    connected(context) {
+      context.commit("setStage", "signedOut");
     },
     setError(context, error) {
       context.commit("setError", error);

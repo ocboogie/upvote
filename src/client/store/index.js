@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import Vue from "vue";
 import Vuex from "vuex";
 import ws from "../socket";
@@ -21,6 +22,10 @@ const store = new Vuex.Store({
     }
   }
 });
+
+ws.onopen = () => {
+  store.dispatch("connected");
+};
 
 ws.onmessage = ({ data: wsData }) => {
   const data = JSON.parse(wsData);

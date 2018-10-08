@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <transition name="login-fade">
-      <login class="login" v-if="stage === 'signedOut'" />
+      <login class="login" v-if="stage !== 'loggedIn'" />
       <div v-else>
         <post-form />
         <posts />

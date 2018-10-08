@@ -27,27 +27,36 @@
       <awsom-button 
         type="submit" 
         class="start-button"
-      >Start</awsom-button>
+        :loading="loginStage === 'connecting'"
+      >
+        Start
+        <template slot="loading">
+          <orbit-spinner :size="25" />
+        </template>
+      </awsom-button>
     </form>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
+import OrbitSpinner from "./OrbitSpinner";
 import AwsomInput from "./AwsomInput.vue";
 import AwsomButton from "./AwsomButton.vue";
 
 export default {
   components: {
     AwsomInput,
-    AwsomButton
+    AwsomButton,
+    OrbitSpinner
   },
   data: () => ({
     name: ""
   }),
   computed: {
     ...mapState({
-      error: state => state.login.error
+      error: state => state.login.error,
+      loginStage: state => state.login.stage
     })
   },
   methods: {
@@ -104,6 +113,7 @@ export default {
   font-size: 0rem;
 }
 .start-button {
+  min-width: 100px;
   margin-top: 0.5rem;
   font-size: 1.5rem;
 }
