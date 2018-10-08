@@ -66,6 +66,7 @@ export default {
 
 <style scoped lang="scss">
 .login {
+  z-index: 1;
   text-align: center;
 }
 .name-label {
