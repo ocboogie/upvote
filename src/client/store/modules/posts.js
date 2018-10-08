@@ -46,5 +46,9 @@ export default {
     removePostsEvent(context, postIds) {
       context.commit("removePosts", postIds);
     }
+  },
+  getters: {
+    sortedPosts: state =>
+      Object.values(state).sort((postA, postB) => postB.upvotes - postA.upvotes)
   }
 };
