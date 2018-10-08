@@ -1,8 +1,21 @@
 <template>
-  <button class="awsom-button">
-    <slot />
+  <button class="awsom-button" :class="{loading}" :disabled="loading">
+    <slot v-if="loading" name="loading" />
+    <slot v-else />
   </button>
 </template>
+
+<script>
+export default {
+  props: {
+    loading: {
+      type: Boolean,
+      default: false
+    }
+  }
+};
+</script>
+
 <style lang="scss" scoped>
 .awsom-button {
   display: inline-block;
@@ -21,6 +34,12 @@
   padding: 12px 20px;
   font-size: 14px;
   border-radius: 4px;
+  &.loading {
+    min-width: 100px;
+    & > * {
+      margin: auto;
+    }
+  }
   &:disabled {
     cursor: default;
     background: mix($white, $primary-color, 50%);
