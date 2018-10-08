@@ -6,10 +6,7 @@
         :class="{'is-selected': vote === 'upvote'}" 
         @click="upvote"
       >
-        <font-awesome-icon 
-          size="lg" 
-          icon="arrow-up"
-        />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="12.5 12.5 25 25"><path d="M33.3 28.7L25 20.4l-8.3 8.3-1.4-1.4 9.7-9.7 9.7 9.7z"/></svg>
       </button>
       {{ upvotes }}
       <button 
@@ -17,11 +14,7 @@
         :class="{'is-selected': vote === 'downvote'}" 
         @click="downvote"
       >
-        <font-awesome-icon 
-          size="lg" 
-          :rotation="180" 
-          icon="arrow-up"
-        />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="12.5 12.5 25 25"><path d="M25 32.4l-9.7-9.7 1.4-1.4 8.3 8.3 8.3-8.3 1.4 1.4z"/></svg>
       </button>
     </div>
     <div class="body">{{ content }}<div class="author">By {{ author }}</div></div>
@@ -108,28 +101,28 @@ export default {
 
       &.upvote {
         &.is-selected {
-          color: $primary-color;
+          fill: $primary-color;
         }
 
         &:hover {
-          color: lighten($primary-color, 10%);
+          fill: lighten($primary-color, 10%);
         }
 
         &:active {
-          color: darken($primary-color, 10%);
+          fill: darken($primary-color, 10%);
         }
       }
       &.downvote {
         &.is-selected {
-          color: $error-color;
+          fill: $error-color;
         }
 
         &:hover {
-          color: lighten($error-color, 5%);
+          fill: lighten($error-color, 5%);
         }
 
         &:active {
-          color: darken($error-color, 10%);
+          fill: darken($error-color, 10%);
         }
       }
     }
