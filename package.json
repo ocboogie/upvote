@@ -11,8 +11,7 @@
     "dev-client": "cd client && npm run dev",
     "dev-server": "cd server && npm run dev",
     "analyze-client": "cd client && npm run analyze",
-    "start": "cd server && npm run start",
-    "heroku-postbuild": "cd server && yarn && ./node_modules/.bin/babel src --out-dir dist"
+    "start": "cd server && npm run start"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
