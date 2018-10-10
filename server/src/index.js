@@ -19,7 +19,7 @@ wss.on("connection", ws => {
   });
 });
 
-const port = process.env.API_PORT;
+const port = process.env.PORT;
 
 // eslint-disable-next-line no-console
 console.log(`Started using port: ${port}`);
