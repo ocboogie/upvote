@@ -3,7 +3,7 @@ import WebSocket from "ws";
 
 dotenv.config();
 
-const port = process.env.API_PORT;
+const port = process.env.PORT;
 
 export default new WebSocket.Server({
   port
