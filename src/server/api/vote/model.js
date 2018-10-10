@@ -1,6 +1,5 @@
 import Sequelize from "sequelize";
 import sequelize from "../../sequelize";
-import Post from "../post/model";
 import Connection from "../connection/model";
 
 const Vote = sequelize.define("vote", {
@@ -23,7 +22,6 @@ const Vote = sequelize.define("vote", {
   }
 });
 
-Vote.belongsTo(Post);
 Vote.belongsTo(Connection, { foreignKey: "socketId" });
 
 export default Vote;

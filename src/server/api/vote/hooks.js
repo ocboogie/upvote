@@ -5,24 +5,27 @@ import emit from "../../emit";
 import wss from "../../wss";
 
 // eslint-disable-next-line import/prefer-default-export
-export const updateClientsVotes = (vote, hook) => {
-  const where =
-    hook === "beforeDestroy"
-      ? { postId: vote.postId, socketId: { [Op.ne]: vote.socketId } }
-      : { postId: vote.postId };
+export const updateClientsVotes = async (vote, hook) => {
+  let upvotes =
+    (await Vote.sum("vote", {
+      where: { postId: vote.postId, socketId: { [Op.ne]: vote.socketId } }
+    })) || 0;
 
-  Vote.sum("vote", { where }).then(upvotes => {
-    const data = emit("updatePost", {
-      id: vote.postId,
-      modPost: {
-        upvotes: upvotes || 0
-      }
-    });
-    wss.clients.forEach(client => {
-      if (client.readyState === WebSocket.OPEN && client.id) {
-        client.send(data);
-      }
-    });
+  if (hook === "beforeUpsert") {
+    upvotes += vote.vote;
+  }
+
+  const message = emit("updatePost", {
+    id: vote.postId,
+    modPost: {
+      upvotes
+    }
+  });
+
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN && client.id) {
+      client.send(message);
+    }
   });
 };
 

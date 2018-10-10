@@ -1,5 +1,5 @@
 import Connection from "./api/connection/model";
-import handlers from "./api/handlers";
+import handlers from "./api";
 import sequelize from "./sequelize";
 import wss from "./wss";
 

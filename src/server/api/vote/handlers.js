@@ -1,21 +1,22 @@
 import Vote from "./model";
 
 export default {
-  vote({ id: postId, vote }) {
+  async vote({ id: postId, vote }) {
     if (!this.id) {
       return;
     }
     if (vote === "none") {
-      Vote.findOne({
+      const voteInstance = await Vote.findOne({
         where: {
           postId,
           socketId: this.id
         }
-      }).then(voteInstance => {
-        voteInstance.destroy();
       });
+      voteInstance.destroy();
+
       return;
     }
+
     Vote.upsert({
       postId,
       socketId: this.id,
