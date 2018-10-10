@@ -1,0 +1,22 @@
+{
+  "name": "upvote-client",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "analyze": "vue-cli-service build --report && serve dist/report.html"
+  },
+  "dependencies": {
+    "vue": "^2.5.17",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.4",
+    "@vue/cli-service": "^3.0.4",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.1",
+    "serve": "^10.0.2",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^4.20.2"
+  }
+}

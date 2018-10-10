@@ -1,8 +1,7 @@
 {
-  "extends": ["airbnb-base", "prettier", "plugin:vue/recommended"],
-  "parser": "vue-eslint-parser",
+  "extends": ["airbnb-base", "prettier"],
+  "parser": "babel-eslint",
   "env": {
-    "browser": true,
     "node": true
   },
   "rules": {

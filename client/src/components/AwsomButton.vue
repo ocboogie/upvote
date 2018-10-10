@@ -1,6 +1,11 @@
 <template>
-  <button class="awsom-button" :class="{loading}" :disabled="loading">
-    <slot v-if="loading" name="loading" />
+  <button 
+    :class="{loading}" 
+    :disabled="loading" 
+    class="awsom-button">
+    <slot 
+      v-if="loading" 
+      name="loading" />
     <slot v-else />
   </button>
 </template>

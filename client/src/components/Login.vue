@@ -12,9 +12,9 @@
       <awsom-input 
         id="nameInput" 
         v-model="name" 
+        :class="{'is-error': Boolean(error)}" 
         type="text" 
         class="name-input" 
-        :class="{'is-error': Boolean(error)}" 
         placeholder="Name"
         autocomplete="off"
       />
@@ -25,9 +25,9 @@
         >{{ error }}</span>
       </transition>
       <awsom-button 
-        type="submit" 
+        :loading="loginStage === 'connecting'" 
+        type="submit"
         class="start-button"
-        :loading="loginStage === 'connecting'"
       >
         Start
         <template slot="loading">

@@ -2,19 +2,23 @@
   <div class="post">
     <div class="upvotes">
       <button 
-        class="arrow upvote" 
         :class="{'is-selected': vote === 'upvote'}" 
+        class="arrow upvote" 
         @click="upvote"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="12.5 12.5 25 25"><path d="M33.3 28.7L25 20.4l-8.3 8.3-1.4-1.4 9.7-9.7 9.7 9.7z"/></svg>
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="12.5 12.5 25 25"><path d="M33.3 28.7L25 20.4l-8.3 8.3-1.4-1.4 9.7-9.7 9.7 9.7z"/></svg>
       </button>
       {{ upvotes }}
       <button 
-        class="arrow downvote" 
         :class="{'is-selected': vote === 'downvote'}" 
+        class="arrow downvote" 
         @click="downvote"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="12.5 12.5 25 25"><path d="M25 32.4l-9.7-9.7 1.4-1.4 8.3 8.3 8.3-8.3 1.4 1.4z"/></svg>
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="12.5 12.5 25 25"><path d="M25 32.4l-9.7-9.7 1.4-1.4 8.3 8.3 8.3-8.3 1.4 1.4z"/></svg>
       </button>
     </div>
     <div class="body">{{ content }}<div class="author">By {{ author }}</div></div>

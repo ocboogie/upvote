@@ -1,7 +1,7 @@
 <template>
   <input 
-    class="awsom-input" 
     :value="value" 
+    class="awsom-input" 
     @input="$emit('input', $event.target.value)"
   >
 </template>
