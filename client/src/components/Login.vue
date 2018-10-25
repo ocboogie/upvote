@@ -1,41 +1,35 @@
 <template>
-  <div class="login">
-    <img 
-      alt="Vue logo" 
-      src="../assets/logo.png"
+  <form @submit="onSubmit">
+    <label 
+      class="name-label" 
+      for="nameInput"
+    >Enter your name</label>
+    <awsom-input 
+      id="nameInput" 
+      v-model="name" 
+      :class="{'is-error': Boolean(error)}" 
+      type="text" 
+      class="name-input" 
+      placeholder="Name"
+      autocomplete="off"
+    />
+    <transition name="scale-fade">
+      <span 
+        v-if="Boolean(error)" 
+        class="error"
+      >{{ error }}</span>
+    </transition>
+    <awsom-button 
+      :loading="loginStage === 'connecting'" 
+      type="submit"
+      class="start-button"
     >
-    <form @submit="onSubmit">
-      <label 
-        class="name-label" 
-        for="nameInput"
-      >Enter your name</label>
-      <awsom-input 
-        id="nameInput" 
-        v-model="name" 
-        :class="{'is-error': Boolean(error)}" 
-        type="text" 
-        class="name-input" 
-        placeholder="Name"
-        autocomplete="off"
-      />
-      <transition name="scale-fade">
-        <span 
-          v-if="Boolean(error)" 
-          class="error"
-        >{{ error }}</span>
-      </transition>
-      <awsom-button 
-        :loading="loginStage === 'connecting'" 
-        type="submit"
-        class="start-button"
-      >
-        Start
-        <template slot="loading">
-          <orbit-spinner :size="25" />
-        </template>
-      </awsom-button>
-    </form>
-  </div>
+      Start
+      <template slot="loading">
+        <orbit-spinner :size="25" />
+      </template>
+    </awsom-button>
+  </form>
 </template>
 
 <script>
@@ -74,10 +68,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.login {
-  z-index: 1;
-  text-align: center;
-}
 .name-label {
   font-size: 1.85rem;
   display: block;

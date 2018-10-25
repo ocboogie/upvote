@@ -11,6 +11,7 @@
 </template>
 
 <script>
+// TODO: https://youtu.be/7YZ5DwlLSt8?t=1675
 export default {
   props: {
     loading: {

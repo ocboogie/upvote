@@ -1,57 +1,54 @@
 <template>
   <div id="app">
-    <transition name="login-fade">
-      <login 
-        v-if="stage !== 'loggedIn'" 
-        class="login" />
-      <div v-else>
-        <post-form />
-        <posts />
-      </div>
+    <transition 
+      :name="transitionName" 
+      :appear="false"
+      mode="in-out">
+      <router-view/>
     </transition>
   </div>
 </template>
-
 <script>
-import { mapState } from "vuex";
-import Login from "./components/Login.vue";
-import Posts from "./components/Posts.vue";
-import PostForm from "./components/PostForm.vue";
+import { emit } from "./socket";
+import { mapActions } from "vuex";
 
 export default {
-  components: {
-    Login,
-    Posts,
-    PostForm
-  },
-  computed: mapState({
-    stage: state => state.login.stage
-  })
+  data: () => ({ transitionName: "" }),
+  watch: {
+    $route(to, from) {
+      // The `from.name !== null` is to prevent the animation on page load
+      if (to.path === "/login" && from.name !== null) {
+        this.transitionName = "login-slide-in";
+        if (this.$store.state.login.stage === "loggedIn") {
+          emit("signOut");
+        }
+        return;
+      }
+      if (from.path === "/login") {
+        this.transitionName = "login-slide-out";
+        return;
+      }
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.login {
-  background-color: $white;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  top: 0;
-}
-.login-fade-leave-active {
-  transition: transform 0.25s cubic-bezier(0.7, 0, 1, 1),
+.login-slide-in-enter-active {
+  transition: transform 0.25s cubic-bezier(0, 0, 0.3, 1),
     opacity 0.1s linear 0.1s;
 }
 
-.login-fade-leave-to {
-  transform: translateY(100vh);
-  opacity: 0;
+.login-slide-out-leave-active {
+  transition: transform 0.25s cubic-bezier(0.5, 0, 1, 1),
+    opacity 0.1s linear 0.1s;
 }
-</style>
 
+.login-slide-in-enter,
+.login-slide-out-leave-to {
+  transform: translateY(100vh);
+}
 
-<style lang="scss">
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

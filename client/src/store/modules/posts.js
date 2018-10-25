@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import Vue from "vue";
+import deepClone from "nanoclone";
 import { emit } from "../../socket";
 
 export default {
@@ -9,9 +10,21 @@ export default {
       Vue.set(state, post.id, post);
     },
     setPosts(state, posts) {
-      posts.forEach(post => {
-        Vue.set(state, post.id, post);
-      });
+      this.replaceState(
+        Object.assign(deepClone(this.state), {
+          posts: posts.reduce((result, post) => {
+            result[post.id] = post;
+            return result;
+          }, {})
+        })
+      );
+    },
+    clearPosts() {
+      this.replaceState(
+        Object.assign(deepClone(this.state), {
+          posts: {}
+        })
+      );
     },
     updatePost(state, data) {
       state[data.id] = { ...state[data.id], ...data.modPost };
