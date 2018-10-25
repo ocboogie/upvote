@@ -2,9 +2,10 @@
   "name": "upvote-client",
   "version": "0.1.0",
   "scripts": {
-    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "analyze": "vue-cli-service build --report && serve dist/report.html"
+    "analyze": "vue-cli-service build --report && serve dist/report.html",
+    "dev": "vue-cli-service serve",
+    "serve": "serve dist"
   },
   "dependencies": {
     "nanoclone": "^0.2.1",
