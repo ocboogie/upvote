@@ -5,6 +5,7 @@ import Vote from "../vote/model";
 import emit from "../../emit";
 
 export default {
+  // Make this function async
   login(name) {
     if (this.id) {
       this.send(emit("alreadyLoggedIn"));
@@ -63,5 +64,14 @@ export default {
         }
         this.send(emit("loggedIn", posts));
       });
+  },
+  async signOut() {
+    if (!this.id) {
+      return;
+    }
+    const connection = await Connection.findById(this.id);
+    connection.destroy();
+    delete this.id;
+    this.send(emit("signedOut"));
   }
 };
