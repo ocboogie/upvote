@@ -1,10 +1,2 @@
-# https://stackoverflow.com/a/50347177/4910911
-# The following redirect is intended for use with most SPA's that handles routing internally.
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = true # Ensure that we always redirect
-
 [build]
 base = "client"
