@@ -75,7 +75,8 @@ export default {
   margin-bottom: 0.5rem;
   text-align: center;
 }
-.name-input {
+/* Using Id for a higher priority */
+#nameInput {
   font-size: 2rem;
   display: block;
   max-width: 360px;
