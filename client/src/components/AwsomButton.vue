@@ -36,7 +36,7 @@ export default {
   outline: none;
   transition: 0.1s;
   font-weight: 500;
-  player-select: none;
+  user-select: none;
   padding: 12px 20px;
   font-size: 14px;
   border-radius: 4px;
