@@ -69,7 +69,7 @@ export default {
     onSubmit(e) {
       e.preventDefault();
       if (!this.name) {
-        this.setError("You must enter a name.");
+        this.setJoinError("You must enter a name.");
         return;
       }
       this.joinGame(this.name);
