@@ -17,15 +17,15 @@ export default {
   watch: {
     $route(to, from) {
       // The `from.name !== null` is to prevent the animation on page load
-      if (to.path === "/login" && from.name !== null) {
-        this.transitionName = "login-slide-in";
-        if (this.$store.state.login.stage === "loggedIn") {
-          emit("signOut");
+      if (to.path === "/" && from.name !== null) {
+        this.transitionName = "main-menu-slide-in";
+        if (this.$store.state.user.stage === "inGame") {
+          emit("leaveLobby");
         }
         return;
       }
-      if (from.path === "/login") {
-        this.transitionName = "login-slide-out";
+      if (from.path === "/") {
+        this.transitionName = "main-menu-slide-out";
         return;
       }
     }
@@ -34,18 +34,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.login-slide-in-enter-active {
+.main-menu-slide-in-enter-active {
   transition: transform 0.25s cubic-bezier(0, 0, 0.3, 1),
     opacity 0.1s linear 0.1s;
 }
 
-.login-slide-out-leave-active {
+.main-menu-slide-out-leave-active {
   transition: transform 0.25s cubic-bezier(0.5, 0, 1, 1),
     opacity 0.1s linear 0.1s;
 }
 
-.login-slide-in-enter,
-.login-slide-out-leave-to {
+.main-menu-slide-in-enter,
+.main-menu-slide-out-leave-to {
   transform: translateY(100vh);
 }
 

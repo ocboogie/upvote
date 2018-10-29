@@ -9,6 +9,8 @@ export default {
     }
 
     const post = await Post.create({ authorSocketId: this.id, content });
+    global.mainLobby.addPost(post);
+
     const { name } = await Connection.findById(this.id);
 
     broadcast("newPost", {

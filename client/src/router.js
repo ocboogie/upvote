@@ -9,32 +9,38 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/login",
-      name: "login",
+      path: "/",
+      name: "mainMenu",
       component: () =>
-        import(/* webpackChunkName: "login" */ "./views/Login.vue")
+        import(/* webpackChunkName: "mainMenu" */ "./views/MainMenu.vue")
     },
     {
-      path: "/",
-      name: "posts",
+      path: "/lobby",
+      name: "lobby",
       component: () =>
-        import(/* webpackChunkName: "posts" */ "./views/Posts.vue"),
+        import(/* webpackChunkName: "lobby" */ "./views/Lobby.vue")
+    },
+    {
+      path: "/game",
+      name: "game",
+      component: () =>
+        import(/* webpackChunkName: "game" */ "./views/Game.vue"),
       meta: { requiresAuth: "pageLoad" }
     },
-    { path: "*", redirect: "/login" }
+    { path: "*", redirect: "/" }
   ]
 });
 
 router.beforeEach((to, from, next) => {
   if (
-    store.state.login.stage !== "loggedIn" &&
+    store.state.user.stage !== "inGame" &&
     to.matched.some(
       record =>
         record.meta.requiresAuth === "on" || // `from.name` is null on page load
         (from.name === null && record.meta.requiresAuth === "pageLoad")
     )
   ) {
-    next("/login");
+    next("/");
     return;
   }
   next();

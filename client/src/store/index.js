@@ -2,7 +2,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import ws from "../socket";
-import login from "./modules/login";
+import user from "./modules/user";
 import posts from "./modules/posts";
 import userList from "./modules/userList";
 
@@ -10,16 +10,16 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
-    login,
+    user,
     posts,
     userList
   },
   actions: {
-    loggedInEvent(context, payload) {
-      context.commit("setStage", "loggedIn");
+    joinedGameEvent(context, payload) {
+      context.commit("setStage", "inGame");
       context.commit("setPosts", payload.posts);
       context.commit("addUsersToList", payload.userList);
-      if (context.state.login.error) {
+      if (context.state.user.error) {
         context.commit("setError", null);
       }
     }

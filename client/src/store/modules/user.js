@@ -8,8 +8,8 @@ export default {
     error: null
   },
   mutations: {
-    setStage(state, loginState) {
-      state.stage = loginState;
+    setStage(state, userStage) {
+      state.stage = userStage;
     },
     setName(state, name) {
       state.name = name;
@@ -19,12 +19,12 @@ export default {
     }
   },
   actions: {
-    login(context, name) {
+    joinGame(context, name) {
       context.commit("setName", name);
-      emit("login", name);
+      emit("joinGame", name);
     },
     connected(context) {
-      context.commit("setStage", "signedOut");
+      context.commit("setStage", "inMainMenu");
     },
     setError(context, error) {
       context.commit("setError", error);
@@ -33,11 +33,11 @@ export default {
     existingUserEvent(context) {
       context.commit("setError", "Existing user with that name.");
     },
-    alreadyLoggedInEvent(context) {
-      context.commit("setError", "You're already logged in.");
+    alreadyInALobbyEvent(context) {
+      context.commit("setError", "You're already in a lobby.");
     },
-    signedOutEvent(context) {
-      context.commit("setStage", "signedOut");
+    leftLobbyEvent(context) {
+      context.commit("setStage", "inMainMenu");
       context.commit("clearPosts");
       context.commit("clearUserList");
     }

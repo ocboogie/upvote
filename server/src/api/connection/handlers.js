@@ -1,41 +1,22 @@
-import uuid from "uuid/v4";
 import Connection from "./model";
-import Post from "../post/model";
+// import Post from "../post/model";
 import Vote from "../vote/model";
 import { emit } from "../../wss";
 
 export default {
   // Make this function async
-  login(name) {
-    if (this.id) {
-      emit(this, "alreadyLoggedIn");
-      return;
-    }
-    Connection.findOne({
-      where: {
-        name
-      }
-    })
-      .then(userWithThatName => {
-        if (userWithThatName !== null) {
-          emit(this, "existingUser");
-          return;
-        }
-
-        this.id = uuid();
-        // eslint-disable-next-line consistent-return
-        return Connection.create({
-          socketId: this.id,
-          name
-        });
-      })
+  joinGame(name) {
+    Connection.login(this, name)
       .then(connection => {
         if (!connection) {
           return;
         }
 
+        global.mainLobby.addConnection(connection);
+        this.lobbyId = global.mainLobby.id;
+
         // eslint-disable-next-line consistent-return
-        return Post.findAll({ where: {} });
+        return global.mainLobby.getPosts();
       })
       .then(posts => {
         if (!posts) {
@@ -65,19 +46,19 @@ export default {
         ]);
       })
       .then(([posts, connections]) => {
-        emit(this, "loggedIn", {
+        emit(this, "joinedGame", {
           posts,
           userList: connections.map(connection => connection.name)
         });
       });
   },
-  async signOut() {
+  async leaveLobby() {
     if (!this.id) {
       return;
     }
     const connection = await Connection.findById(this.id);
     connection.destroy();
     delete this.id;
-    emit(this, "signedOut");
+    emit(this, "leftLobby");
   }
 };

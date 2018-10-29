@@ -1,9 +1,20 @@
 import Connection from "./api/connection/model";
+import Lobby from "./api/lobby/model";
 import handlers from "./api";
 import sequelize from "./sequelize";
 import wss from "./wss";
 
-sequelize.sync();
+sequelize
+  .sync()
+  .then(() =>
+    Lobby.create({
+      inGame: true,
+      prompt: "What's up doc"
+    })
+  )
+  .then(lobby => {
+    global.mainLobby = lobby;
+  });
 
 wss.on("connection", ws => {
   ws.on("message", handlers);
