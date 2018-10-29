@@ -4,18 +4,21 @@ import Vuex from "vuex";
 import ws from "../socket";
 import login from "./modules/login";
 import posts from "./modules/posts";
+import userList from "./modules/userList";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
     login,
-    posts
+    posts,
+    userList
   },
   actions: {
-    loggedInEvent(context, receivedPosts) {
+    loggedInEvent(context, payload) {
       context.commit("setStage", "loggedIn");
-      context.commit("setPosts", receivedPosts);
+      context.commit("setPosts", payload.posts);
+      context.commit("addUsersToList", payload.userList);
       if (context.state.login.error) {
         context.commit("setError", null);
       }

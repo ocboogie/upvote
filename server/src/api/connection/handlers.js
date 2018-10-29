@@ -42,27 +42,33 @@ export default {
           return;
         }
 
+        // TODO: Make this not look awful
         // eslint-disable-next-line consistent-return
-        return Promise.all(
-          posts.map(post =>
-            Promise.all([
-              Vote.sum("vote", { where: { postId: post.id } }),
-              Connection.findOne({ where: { socketId: post.authorSocketId } })
-            ]).then(([upvotes, authorConnection]) => ({
-              content: post.content,
-              createdAt: post.createdAt,
-              id: post.id,
-              author: authorConnection.name,
-              upvotes: upvotes || 0
-            }))
-          )
-        );
+        return Promise.all([
+          Promise.all(
+            posts.map(post =>
+              Promise.all([
+                Vote.sum("vote", { where: { postId: post.id } }),
+                Connection.findOne({
+                  where: { socketId: post.authorSocketId }
+                })
+              ]).then(([upvotes, authorConnection]) => ({
+                content: post.content,
+                createdAt: post.createdAt,
+                id: post.id,
+                author: authorConnection.name,
+                upvotes: upvotes || 0
+              }))
+            )
+          ),
+          Connection.findAll({ where: {} })
+        ]);
       })
-      .then(posts => {
-        if (!posts) {
-          return;
-        }
-        emit(this, "loggedIn", posts);
+      .then(([posts, connections]) => {
+        emit(this, "loggedIn", {
+          posts,
+          userList: connections.map(connection => connection.name)
+        });
       });
   },
   async signOut() {

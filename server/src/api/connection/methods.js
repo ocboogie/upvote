@@ -48,3 +48,8 @@ Connection.updateClientsVotes = async disconnectedSocketId =>
       }
     });
   });
+
+Connection.sendRemovedUserToClients = (name, excludedSocketId) =>
+  broadcast("removeUser", name, client => client.id !== excludedSocketId);
+Connection.sendNewUserToClients = (name, excludedSocketId) =>
+  broadcast("newUser", name, client => client.id !== excludedSocketId);

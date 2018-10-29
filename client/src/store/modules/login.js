@@ -39,6 +39,7 @@ export default {
     signedOutEvent(context) {
       context.commit("setStage", "signedOut");
       context.commit("clearPosts");
+      context.commit("clearUserList");
     }
   }
 };
