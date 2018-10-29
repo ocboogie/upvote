@@ -1,7 +1,7 @@
 <template>
   <div class="lobby">
     <h1>Lobby</h1>
-    <awsom-button>Start</awsom-button>
+    <awsom-button>Join</awsom-button>
   </div>
 </template>
 

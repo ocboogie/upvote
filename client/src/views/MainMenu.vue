@@ -27,9 +27,9 @@
       <awsom-button 
         :loading="playerStage === 'connecting'"
         type="submit"
-        class="start-button"
+        class="join-button"
       >
-        Start
+        Join
         <template slot="loading">
           <orbit-spinner :size="25" />
         </template>
@@ -113,7 +113,7 @@ export default {
   color: $error-color;
   display: block;
 }
-.start-button {
+.join-button {
   min-width: 100px;
   margin-top: 0.5rem;
   font-size: 1.5rem;
