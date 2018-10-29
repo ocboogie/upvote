@@ -72,6 +72,6 @@ export default {
     const connection = await Connection.findById(this.id);
     connection.destroy();
     delete this.id;
-    this.send(emit("signedOut"));
+    emit(this, "signedOut");
   }
 };
