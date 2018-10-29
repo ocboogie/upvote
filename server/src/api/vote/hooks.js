@@ -6,7 +6,7 @@ import { broadcast } from "../../wss";
 export const updateClientsVotes = async (vote, hook) => {
   let upvotes =
     (await Vote.sum("vote", {
-      where: { postId: vote.postId, socketId: { [Op.ne]: vote.socketId } }
+      where: { postId: vote.postId, id: { [Op.ne]: vote.id } }
     })) || 0;
 
   if (hook === "beforeUpsert") {

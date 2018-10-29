@@ -1,4 +1,4 @@
-import Connection from "./model";
+import Player from "./model";
 // import Post from "../post/model";
 import Vote from "../vote/model";
 import { emit } from "../../wss";
@@ -6,13 +6,13 @@ import { emit } from "../../wss";
 export default {
   // Make this function async
   joinGame(name) {
-    Connection.login(this, name)
-      .then(connection => {
-        if (!connection) {
+    Player.login(this, name)
+      .then(player => {
+        if (!player) {
           return;
         }
 
-        global.mainLobby.addConnection(connection);
+        global.mainLobby.addPlayer(player);
         this.lobbyId = global.mainLobby.id;
 
         // eslint-disable-next-line consistent-return
@@ -30,25 +30,25 @@ export default {
             posts.map(post =>
               Promise.all([
                 Vote.sum("vote", { where: { postId: post.id } }),
-                Connection.findOne({
-                  where: { socketId: post.authorSocketId }
+                Player.findOne({
+                  where: { id: post.authorSocketId }
                 })
-              ]).then(([upvotes, authorConnection]) => ({
+              ]).then(([upvotes, authorPlayer]) => ({
                 content: post.content,
                 createdAt: post.createdAt,
                 id: post.id,
-                author: authorConnection.name,
+                author: authorPlayer.name,
                 upvotes: upvotes || 0
               }))
             )
           ),
-          Connection.findAll({ where: {} })
+          Player.findAll({ where: {} })
         ]);
       })
-      .then(([posts, connections]) => {
+      .then(([posts, players]) => {
         emit(this, "joinedGame", {
           posts,
-          userList: connections.map(connection => connection.name)
+          playerList: players.map(player => player.name)
         });
       });
   },
@@ -56,8 +56,8 @@ export default {
     if (!this.id) {
       return;
     }
-    const connection = await Connection.findById(this.id);
-    connection.destroy();
+    const player = await Player.findById(this.id);
+    player.destroy();
     delete this.id;
     emit(this, "leftLobby");
   }

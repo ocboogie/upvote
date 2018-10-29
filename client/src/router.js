@@ -33,7 +33,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (
-    store.state.user.stage !== "inGame" &&
+    store.state.player.stage !== "inGame" &&
     to.matched.some(
       record =>
         record.meta.requiresAuth === "on" || // `from.name` is null on page load

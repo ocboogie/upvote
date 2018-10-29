@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 import sequelize from "../../sequelize";
-import Connection from "../connection/model";
+import Player from "../player/model";
 import Vote from "../vote/model";
 
 const Post = sequelize.define("post", {
@@ -12,7 +12,7 @@ const Post = sequelize.define("post", {
   content: { type: Sequelize.STRING, allowNull: false }
 });
 
-Post.belongsTo(Connection, {
+Post.belongsTo(Player, {
   foreignKey: "authorSocketId",
   onDelete: "CASCADE"
 });

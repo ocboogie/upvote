@@ -2,24 +2,24 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import ws from "../socket";
-import user from "./modules/user";
+import player from "./modules/player";
 import posts from "./modules/posts";
-import userList from "./modules/userList";
+import playerList from "./modules/playerList";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
-    user,
+    player,
     posts,
-    userList
+    playerList
   },
   actions: {
     joinedGameEvent(context, payload) {
       context.commit("setStage", "inGame");
       context.commit("setPosts", payload.posts);
-      context.commit("addUsersToList", payload.userList);
-      if (context.state.user.error) {
+      context.commit("addPlayersToList", payload.playerList);
+      if (context.state.player.error) {
         context.commit("setError", null);
       }
     }

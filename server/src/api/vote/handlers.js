@@ -9,7 +9,7 @@ export default {
       const voteInstance = await Vote.findOne({
         where: {
           postId,
-          socketId: this.id
+          id: this.id
         }
       });
       voteInstance.destroy();
@@ -19,7 +19,7 @@ export default {
 
     Vote.upsert({
       postId,
-      socketId: this.id,
+      id: this.id,
       vote: vote === "downvote" ? -1 : 1
     });
   }

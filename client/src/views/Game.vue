@@ -4,8 +4,8 @@
       <post-form class="post-form" />
       <posts />
     </div>
-    <div class="user-list-container">
-      <user-list />
+    <div class="player-list-container">
+      <player-list />
     </div>
   </div>
 </template>
@@ -14,17 +14,17 @@
 import { mapActions, mapState } from "vuex";
 import PostForm from "@/components/PostForm.vue";
 import Posts from "@/components/Posts.vue";
-import UserList from "@/components/UserList.vue";
+import PlayerList from "@/components/PlayerList.vue";
 
 export default {
   components: {
     Posts,
     PostForm,
-    UserList
+    PlayerList
   },
   computed: {
     ...mapState({
-      userStage: state => state.user.stage
+      playerStage: state => state.player.stage
     })
   }
 };
@@ -39,7 +39,7 @@ export default {
       margin-bottom: 1rem;
     }
   }
-  .user-list-container {
+  .player-list-container {
     flex: 0.3;
     margin-left: 0.5rem;
   }

@@ -1,12 +1,12 @@
 import Sequelize from "sequelize";
 import sequelize from "../../sequelize";
 
-const Connection = sequelize.define("connection", {
-  socketId: {
+const Player = sequelize.define("player", {
+  id: {
     type: Sequelize.UUID,
     primaryKey: true
   },
   name: { type: Sequelize.STRING, unique: true, allowNull: false }
 });
 
-export default Connection;
+export default Player;

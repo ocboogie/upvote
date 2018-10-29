@@ -25,7 +25,7 @@
         >{{ error }}</span>
       </transition>
       <awsom-button 
-        :loading="userStage === 'connecting'"
+        :loading="playerStage === 'connecting'"
         type="submit"
         class="start-button"
       >
@@ -54,18 +54,18 @@ export default {
     name: ""
   }),
   computed: mapState({
-    error: state => state.user.error,
-    userStage: state => state.user.stage
+    error: state => state.player.error,
+    playerStage: state => state.player.stage
   }),
   watch: {
-    userStage(userStage) {
-      if (userStage === "inGame") {
+    playerStage(playerStage) {
+      if (playerStage === "inGame") {
         this.$router.push("/game");
       }
     }
   },
   methods: {
-    ...mapActions(["joinGame", "setUserError"]),
+    ...mapActions(["joinGame", "setJoinError"]),
     onSubmit(e) {
       e.preventDefault();
       if (!this.name) {

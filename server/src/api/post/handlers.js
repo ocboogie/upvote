@@ -1,5 +1,5 @@
 import Post from "./model";
-import Connection from "../connection/model";
+import Player from "../player/model";
 import { broadcast } from "../../wss";
 
 export default {
@@ -11,7 +11,7 @@ export default {
     const post = await Post.create({ authorSocketId: this.id, content });
     global.mainLobby.addPost(post);
 
-    const { name } = await Connection.findById(this.id);
+    const { name } = await Player.findById(this.id);
 
     broadcast("newPost", {
       content: post.content,

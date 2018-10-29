@@ -1,12 +1,12 @@
-import "./connection/methods";
-import "./connection/hooks";
+import "./player/methods";
+import "./player/hooks";
 import "./vote/hooks";
-import connectionHandlers from "./connection/handlers";
+import playerHandlers from "./player/handlers";
 import postHandlers from "./post/handlers";
 import voteHandlers from "./vote/handlers";
 
 const handlers = {
-  ...connectionHandlers,
+  ...playerHandlers,
   ...postHandlers,
   ...voteHandlers
 };

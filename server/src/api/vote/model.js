@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 import sequelize from "../../sequelize";
-import Connection from "../connection/model";
+import Player from "../player/model";
 
 const Vote = sequelize.define("vote", {
   postId: {
@@ -8,7 +8,7 @@ const Vote = sequelize.define("vote", {
     primaryKey: true,
     onDelete: "CASCADE"
   },
-  socketId: {
+  id: {
     type: Sequelize.UUID,
     primaryKey: true,
     onDelete: "CASCADE"
@@ -22,6 +22,6 @@ const Vote = sequelize.define("vote", {
   }
 });
 
-Vote.belongsTo(Connection, { foreignKey: "socketId" });
+Vote.belongsTo(Player, { foreignKey: "id" });
 
 export default Vote;

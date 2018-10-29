@@ -8,13 +8,13 @@ export default {
     error: null
   },
   mutations: {
-    setStage(state, userStage) {
-      state.stage = userStage;
+    setStage(state, playerStage) {
+      state.stage = playerStage;
     },
     setName(state, name) {
       state.name = name;
     },
-    setError(state, error) {
+    setJoinError(state, error) {
       state.error = error;
     }
   },
@@ -26,20 +26,20 @@ export default {
     connected(context) {
       context.commit("setStage", "inMainMenu");
     },
-    setError(context, error) {
-      context.commit("setError", error);
+    setJoinError(context, error) {
+      context.commit("setJoinError", error);
     },
 
-    existingUserEvent(context) {
-      context.commit("setError", "Existing user with that name.");
+    existingPlayerEvent(context) {
+      context.commit("setJoinError", "Existing player with that name.");
     },
     alreadyInALobbyEvent(context) {
-      context.commit("setError", "You're already in a lobby.");
+      context.commit("setJoinError", "You're already in a lobby.");
     },
     leftLobbyEvent(context) {
       context.commit("setStage", "inMainMenu");
       context.commit("clearPosts");
-      context.commit("clearUserList");
+      context.commit("clearPlayerList");
     }
   }
 };

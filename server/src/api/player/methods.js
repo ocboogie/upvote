@@ -1,39 +1,39 @@
 import uuid from "uuid/v4";
 import { Op, literal } from "sequelize";
-import Connection from "./model";
+import Player from "./model";
 import Post from "../post/model";
 import { broadcast, emit } from "../../wss";
 import Vote from "../vote/model";
 
-Connection.login = async (socket, name) => {
+Player.login = async (socket, name) => {
   if (socket.id) {
     emit(socket, "alreadyInALobby");
     return;
   }
 
-  const existingConnection = await Connection.findOne({
+  const existingPlayer = await Player.findOne({
     where: {
       name
     }
   });
-  if (existingConnection !== null) {
-    emit(socket, "existingUser");
+  if (existingPlayer !== null) {
+    emit(socket, "existingPlayer");
     return;
   }
 
   // eslint-disable-next-line no-param-reassign
   socket.id = uuid();
 
-  const connection = await Connection.create({
-    socketId: socket.id,
+  const player = await Player.create({
+    id: socket.id,
     name
   });
 
   // eslint-disable-next-line consistent-return
-  return connection;
+  return player;
 };
 
-Connection.sendRemovePostsToClients = async disconnectedSocketId => {
+Player.sendRemovePostsToClients = async disconnectedSocketId => {
   const posts = await Post.findAll({
     where: { authorSocketId: disconnectedSocketId }
   });
@@ -45,13 +45,13 @@ Connection.sendRemovePostsToClients = async disconnectedSocketId => {
   broadcast("removePosts", posts.map(post => post.id));
 };
 
-Connection.updateClientsVotes = async disconnectedSocketId =>
+Player.updateClientsVotes = async disconnectedSocketId =>
   (await Post.findAll({
     attributes: [
       "id",
       [
         literal(
-          `(SELECT SUM("votes"."vote") FROM votes WHERE "votes"."postId"="post"."id" AND "votes"."socketId"!=$1 )`
+          `(SELECT SUM("votes"."vote") FROM votes WHERE "votes"."postId"="post"."id" AND "votes"."id"!=$1 )`
         ),
         "upvotes"
       ]
@@ -65,7 +65,7 @@ Connection.updateClientsVotes = async disconnectedSocketId =>
         model: Vote,
         required: true,
         where: {
-          socketId: disconnectedSocketId
+          id: disconnectedSocketId
         }
       }
     ]
@@ -78,7 +78,7 @@ Connection.updateClientsVotes = async disconnectedSocketId =>
     });
   });
 
-Connection.sendRemovedUserToClients = (name, excludedSocketId) =>
-  broadcast("removeUser", name, client => client.id !== excludedSocketId);
-Connection.sendNewUserToClients = (name, excludedSocketId) =>
-  broadcast("newUser", name, client => client.id !== excludedSocketId);
+Player.sendRemovedPlayerToClients = (name, excludedSocketId) =>
+  broadcast("removePlayer", name, client => client.id !== excludedSocketId);
+Player.sendNewPlayerToClients = (name, excludedSocketId) =>
+  broadcast("newPlayer", name, client => client.id !== excludedSocketId);

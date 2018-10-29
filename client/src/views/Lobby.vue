@@ -16,7 +16,7 @@ export default {
     AwsomButton
   },
   computed: mapState({
-    userStage: state => state.user.stage
+    playerStage: state => state.player.stage
   })
 };
 </script>

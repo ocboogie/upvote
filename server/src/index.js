@@ -1,4 +1,4 @@
-import Connection from "./api/connection/model";
+import Player from "./api/player/model";
 import Lobby from "./api/lobby/model";
 import handlers from "./api";
 import sequelize from "./sequelize";
@@ -24,8 +24,8 @@ wss.on("connection", ws => {
     if (!this.id) {
       return;
     }
-    Connection.findById(this.id).then(connection => {
-      connection.destroy();
+    Player.findById(this.id).then(player => {
+      player.destroy();
     });
   });
 });

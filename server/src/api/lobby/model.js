@@ -2,7 +2,7 @@ import nanoid from "nanoid";
 import Sequelize from "sequelize";
 import sequelize from "../../sequelize";
 import Post from "../post/model";
-import Connection from "../connection/model";
+import Player from "../player/model";
 
 const Lobby = sequelize.define("lobby", {
   id: {
@@ -29,8 +29,8 @@ const Lobby = sequelize.define("lobby", {
 });
 
 Lobby.hasMany(Post, { onDelete: "CASCADE" });
-Lobby.hasMany(Connection, { onDelete: "CASCADE" });
-Lobby.belongsTo(Connection, {
+Lobby.hasMany(Player, { onDelete: "CASCADE" });
+Lobby.belongsTo(Player, {
   foreignKey: "hostSocketId",
   constraints: false
 });

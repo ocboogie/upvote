@@ -19,7 +19,7 @@ export default {
       // The `from.name !== null` is to prevent the animation on page load
       if (to.path === "/" && from.name !== null) {
         this.transitionName = "main-menu-slide-in";
-        if (this.$store.state.user.stage === "inGame") {
+        if (this.$store.state.player.stage === "inGame") {
           emit("leaveLobby");
         }
         return;
