@@ -2,13 +2,13 @@ import uuid from "uuid/v4";
 import Connection from "./model";
 import Post from "../post/model";
 import Vote from "../vote/model";
-import emit from "../../emit";
+import { emit } from "../../wss";
 
 export default {
   // Make this function async
   login(name) {
     if (this.id) {
-      this.send(emit("alreadyLoggedIn"));
+      emit(this, "alreadyLoggedIn");
       return;
     }
     Connection.findOne({
@@ -18,7 +18,7 @@ export default {
     })
       .then(userWithThatName => {
         if (userWithThatName !== null) {
-          this.send(emit("existingUser"));
+          emit(this, "existingUser");
           return;
         }
 
@@ -62,7 +62,7 @@ export default {
         if (!posts) {
           return;
         }
-        this.send(emit("loggedIn", posts));
+        emit(this, "loggedIn", posts);
       });
   },
   async signOut() {

@@ -1,8 +1,6 @@
 import { Op } from "sequelize";
-import WebSocket from "ws";
 import Vote from "./model";
-import emit from "../../emit";
-import wss from "../../wss";
+import { broadcast } from "../../wss";
 
 // eslint-disable-next-line import/prefer-default-export
 export const updateClientsVotes = async (vote, hook) => {
@@ -15,16 +13,10 @@ export const updateClientsVotes = async (vote, hook) => {
     upvotes += vote.vote;
   }
 
-  const message = emit("updatePost", {
+  broadcast("updatePost", {
     id: vote.postId,
     modPost: {
       upvotes
-    }
-  });
-
-  wss.clients.forEach(client => {
-    if (client.readyState === WebSocket.OPEN && client.id) {
-      client.send(message);
     }
   });
 };

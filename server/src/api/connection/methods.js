@@ -1,9 +1,7 @@
 import { Op, literal } from "sequelize";
-import WebSocket from "ws";
 import Connection from "./model";
 import Post from "../post/model";
-import wss from "../../wss";
-import emit from "../../emit";
+import { broadcast } from "../../wss";
 import Vote from "../vote/model";
 
 Connection.sendRemovePostsToClients = async disconnectedSocketId => {
@@ -15,13 +13,7 @@ Connection.sendRemovePostsToClients = async disconnectedSocketId => {
     return;
   }
 
-  const data = emit("removePosts", posts.map(post => post.id));
-
-  wss.clients.forEach(client => {
-    if (client.readyState === WebSocket.OPEN && client.id) {
-      client.send(data);
-    }
-  });
+  broadcast("removePosts", posts.map(post => post.id));
 };
 
 Connection.updateClientsVotes = async disconnectedSocketId =>
@@ -49,16 +41,10 @@ Connection.updateClientsVotes = async disconnectedSocketId =>
       }
     ]
   })).forEach(post => {
-    const message = emit("updatePost", {
+    broadcast("updatePost", {
       id: post.id,
       modPost: {
         upvotes: post.get("upvotes") || 0
-      }
-    });
-
-    wss.clients.forEach(client => {
-      if (client.readyState === WebSocket.OPEN && client.id) {
-        client.send(message);
       }
     });
   });
