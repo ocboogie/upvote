@@ -2,7 +2,7 @@
   "name": "upvote",
   "version": "0.1.0",
   "scripts": {
-    "lint": "eslint --ext .js,.vue client",
+    "lint": "eslint --ext .js,.vue .",
     "format": "npm run lint -- --fix",
     "build": "concurrently \"npm run build-server\" \"npm run build-client\"",
     "build-client": "cd client && npm run build",
