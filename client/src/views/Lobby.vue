@@ -7,9 +7,7 @@
         <awsom-button
           :disabled="!isHost && playerStage === 'inLobby'"
           class="start-button"
-          @click.native="
-            ;() => (playerStage === 'inGame' ? backToGame() : startGame())
-          "
+          @click.native="startButtonAction"
         >
           {{ playerStage === "inGame" ? "Back to game" : "Start" }}
         </awsom-button>
@@ -45,6 +43,9 @@ export default {
       lobbyId: state => state.lobby.lobbyId,
       isHost: state => state.lobby.isHost
     }),
+    startButtonAction() {
+      return this.playerStage === "inGame" ? this.backToGame : this.startGame
+    },
     inviteUrl() {
       return `${window.location.origin}/?${this.lobbyId}`
     }
