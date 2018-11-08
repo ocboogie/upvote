@@ -1,24 +1,24 @@
-import sequelize from "sequelize";
-import Player from "./model";
-import Lobby from "../lobby/model";
-import Vote from "../vote/model";
-import Post from "../post/model";
-import { emit } from "../../wss";
+import sequelize from "sequelize"
+import Player from "./model"
+import Lobby from "../lobby/model"
+import Vote from "../vote/model"
+import Post from "../post/model"
+import { emit } from "../../wss"
 
 export default {
   async joinLobby({ name, lobbyId: targetLobbyId }) {
-    const lobbyId = targetLobbyId || global.mainLobbyId;
+    const lobbyId = targetLobbyId || global.mainLobbyId
 
-    const lobby = await Lobby.findByPk(lobbyId);
+    const lobby = await Lobby.findByPk(lobbyId)
 
     if (!lobby) {
-      emit(this, "lobbyNotFound");
-      return;
+      emit(this, "lobbyNotFound")
+      return
     }
 
-    const player = await Player.register(this, name, lobbyId);
+    const player = await Player.register(this, name, lobbyId)
     if (!player) {
-      return;
+      return
     }
 
     if (!lobby.inGame) {
@@ -28,8 +28,8 @@ export default {
           where: { lobbyId }
         })).map(otherPlayer => otherPlayer.name),
         lobbyId
-      });
-      return;
+      })
+      return
     }
 
     const [posts, players] = await Promise.all([
@@ -56,22 +56,22 @@ export default {
         where: { lobbyId }
       }),
       Player.findAll({ attributes: ["name"], where: { lobbyId } })
-    ]);
+    ])
 
     emit(this, "joinedGame", {
       posts,
       players: players.map(otherPlayer => otherPlayer.name)
-    });
+    })
   },
   async leaveLobby() {
     if (!this.id) {
-      return;
+      return
     }
 
-    await Player.destroy({ where: { id: this.id }, individualHooks: true });
+    await Player.destroy({ where: { id: this.id }, individualHooks: true })
 
-    delete this.id;
-    delete this.lobbyId;
-    emit(this, "leftLobby");
+    delete this.id
+    delete this.lobbyId
+    emit(this, "leftLobby")
   }
-};
+}

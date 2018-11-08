@@ -13,8 +13,8 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
-import "./components/AwsomButton.vue";
+import { mapState } from "vuex"
+import "./components/AwsomButton.vue"
 
 export default {
   data: () => ({ transition: "" }),
@@ -25,22 +25,22 @@ export default {
     $route(to, from) {
       // Prevent page animation on page load
       if (from.name === null) {
-        return;
+        return
       }
 
       if (to.meta.depth > from.meta.depth) {
-        this.transition = "slide-out";
+        this.transition = "slide-out"
       } else {
-        this.transition = "slide-in";
+        this.transition = "slide-in"
       }
     }
   },
   methods: {
     clearTransition() {
-      this.transition = "";
+      this.transition = ""
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

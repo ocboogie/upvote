@@ -1,6 +1,6 @@
-import Sequelize from "sequelize";
-import sequelize from "../../sequelize";
-import Player from "../player/model";
+import Sequelize from "sequelize"
+import sequelize from "../../sequelize"
+import Player from "../player/model"
 
 const Vote = sequelize.define("vote", {
   postId: {
@@ -20,8 +20,8 @@ const Vote = sequelize.define("vote", {
       isIn: [[-1, 1]]
     }
   }
-});
+})
 
-Vote.belongsTo(Player, { foreignKey: "id" });
+Vote.belongsTo(Player, { foreignKey: "id" })
 
-export default Vote;
+export default Vote

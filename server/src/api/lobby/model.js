@@ -1,8 +1,8 @@
-import nanoid from "nanoid";
-import Sequelize from "sequelize";
-import sequelize from "../../sequelize";
-import Post from "../post/model";
-import Player from "../player/model";
+import nanoid from "nanoid"
+import Sequelize from "sequelize"
+import sequelize from "../../sequelize"
+import Post from "../post/model"
+import Player from "../player/model"
 
 const Lobby = sequelize.define("lobby", {
   id: {
@@ -26,13 +26,13 @@ const Lobby = sequelize.define("lobby", {
     allowNull: false,
     defaultValue: 60
   }
-});
+})
 
-Lobby.hasMany(Post, { onDelete: "CASCADE" });
-Lobby.hasMany(Player, { onDelete: "CASCADE" });
+Lobby.hasMany(Post, { onDelete: "CASCADE" })
+Lobby.hasMany(Player, { onDelete: "CASCADE" })
 Lobby.belongsTo(Player, {
   as: "host",
   constraints: false
-});
+})
 
-export default Lobby;
+export default Lobby

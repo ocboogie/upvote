@@ -21,9 +21,9 @@
 </template>
 <script>
 // ---------Currently not in use---------
-import { mapState, mapActions } from "vuex";
-import AwsomCard from "./AwsomCard";
-import AwsomButton from "./AwsomButton";
+import { mapState, mapActions } from "vuex"
+import AwsomCard from "./AwsomCard"
+import AwsomButton from "./AwsomButton"
 // import modals from "../modals";
 
 export default {
@@ -42,7 +42,7 @@ export default {
     // }
   },
   methods: mapActions(["closeModal"])
-};
+}
 </script>
 
 <style lang="scss" scoped>

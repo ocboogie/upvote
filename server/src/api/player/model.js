@@ -1,5 +1,5 @@
-import Sequelize from "sequelize";
-import sequelize from "../../sequelize";
+import Sequelize from "sequelize"
+import sequelize from "../../sequelize"
 
 const Player = sequelize.define(
   "player",
@@ -19,6 +19,6 @@ const Player = sequelize.define(
       }
     ]
   }
-);
+)
 
-export default Player;
+export default Player

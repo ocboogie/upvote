@@ -1,7 +1,7 @@
-import Sequelize from "sequelize";
-import sequelize from "../../sequelize";
-import Player from "../player/model";
-import Vote from "../vote/model";
+import Sequelize from "sequelize"
+import sequelize from "../../sequelize"
+import Player from "../player/model"
+import Vote from "../vote/model"
 
 const Post = sequelize.define("post", {
   id: {
@@ -10,13 +10,13 @@ const Post = sequelize.define("post", {
     primaryKey: true
   },
   content: { type: Sequelize.STRING, allowNull: false }
-});
+})
 
 Post.belongsTo(Player, {
   onDelete: "CASCADE",
   foreignKey: "playerId"
-});
+})
 
-Post.hasMany(Vote);
+Post.hasMany(Vote)
 
-export default Post;
+export default Post

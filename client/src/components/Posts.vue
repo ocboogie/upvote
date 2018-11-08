@@ -6,8 +6,8 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import Post from "./Post.vue";
+import { mapGetters } from "vuex"
+import Post from "./Post.vue"
 
 export default {
   components: {
@@ -16,7 +16,7 @@ export default {
   computed: mapGetters({
     posts: "sortedPosts"
   })
-};
+}
 </script>
 
 <style lang="scss" scoped>

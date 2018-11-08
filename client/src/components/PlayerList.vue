@@ -11,8 +11,8 @@
   </awsom-card>
 </template>
 <script>
-import { mapState } from "vuex";
-import AwsomCard from "./AwsomCard.vue";
+import { mapState } from "vuex"
+import AwsomCard from "./AwsomCard.vue"
 
 export default {
   components: {
@@ -22,7 +22,7 @@ export default {
     players: state => state.lobby.players,
     playersName: state => state.player.name
   })
-};
+}
 </script>
 <style lang="scss" scoped>
 .player-list {

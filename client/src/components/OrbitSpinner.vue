@@ -31,16 +31,16 @@ export default {
       return {
         height: `${this.size}px`,
         width: `${this.size}px`
-      };
+      }
     },
     orbitStyle() {
       return {
         borderColor: this.color,
         animationDuration: `${this.animationDuration}ms`
-      };
+      }
     }
   }
-};
+}
 </script>
 
 <style scoped>

@@ -1,5 +1,5 @@
-const ws = new WebSocket(process.env.VUE_APP_API_URI);
+const ws = new WebSocket(process.env.VUE_APP_API_URI)
 
-export const emit = (type, data) => ws.send(JSON.stringify({ type, data }));
+export const emit = (type, data) => ws.send(JSON.stringify({ type, data }))
 
-export default ws;
+export default ws

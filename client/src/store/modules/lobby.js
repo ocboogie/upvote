@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
-import Vue from "vue";
-import { emit } from "../../socket";
+import Vue from "vue"
+import { emit } from "../../socket"
 
 export default {
   state: {
@@ -11,87 +11,87 @@ export default {
   },
   mutations: {
     setPost(state, post) {
-      Vue.set(state.posts, post.id, post);
+      Vue.set(state.posts, post.id, post)
     },
     setPosts(state, posts) {
-      state.posts = posts;
+      state.posts = posts
     },
     clearPosts(state) {
-      state.posts = {};
+      state.posts = {}
     },
     updatePosts(state, posts) {
       Object.entries(posts).forEach(([id, modPost]) => {
         Vue.set(state.posts, id, {
           ...state.posts[id],
           ...modPost
-        });
-      });
+        })
+      })
     },
     updatePost(state, payload) {
       Vue.set(state.posts, payload.id, {
         ...state.posts[payload.id],
         ...payload.modPost
-      });
+      })
     },
     removePosts(state, postIds) {
       postIds.forEach(postId => {
-        Vue.delete(state.posts, postId);
-      });
+        Vue.delete(state.posts, postId)
+      })
     },
     vote(state, payload) {
-      const post = state.posts[payload.id];
-      Vue.set(post, "vote", payload.vote);
+      const post = state.posts[payload.id]
+      Vue.set(post, "vote", payload.vote)
     },
 
     addPlayer(state, player) {
-      state.players.push(player);
+      state.players.push(player)
     },
     setPlayers(state, players) {
-      state.players = players;
+      state.players = players
     },
     removePlayer(state, player) {
-      state.players.splice(state.players.indexOf(player), 1);
+      state.players.splice(state.players.indexOf(player), 1)
     },
     clearPlayers(state) {
-      state.players = [];
+      state.players = []
     },
 
     setLobbyId(state, lobbyId) {
-      state.lobbyId = lobbyId;
+      state.lobbyId = lobbyId
     },
     setIsHost(state, isHost) {
-      state.isHost = isHost;
+      state.isHost = isHost
     }
   },
   actions: {
     setPost(context, post) {
-      context.commit("setPost", post);
+      context.commit("setPost", post)
     },
     vote(context, payload) {
-      emit("vote", payload);
-      context.commit("vote", payload);
+      emit("vote", payload)
+      context.commit("vote", payload)
     },
     post(context, content) {
-      emit("post", content);
+      emit("post", content)
     },
 
     newPostEvent(context, post) {
-      context.commit("setPost", post);
+      context.commit("setPost", post)
     },
     updatePostsEvent(context, data) {
-      context.commit("updatePosts", data);
+      context.commit("updatePosts", data)
     },
     updatePostEvent(context, data) {
-      context.commit("updatePost", data);
+      context.commit("updatePost", data)
     },
     removePostsEvent(context, postIds) {
-      context.commit("removePosts", postIds);
+      context.commit("removePosts", postIds)
     },
     newPlayerEvent(context, player) {
-      context.commit("addPlayer", player);
+      context.commit("addPlayer", player)
     },
     removePlayerEvent(context, player) {
-      context.commit("removePlayer", player);
+      context.commit("removePlayer", player)
     }
   },
   getters: {
@@ -100,4 +100,4 @@ export default {
         (postA, postB) => postB.upvotes - postA.upvotes
       )
   }
-};
+}

@@ -2,13 +2,13 @@
   <input
     :value="value"
     class="awsom-input"
-    @input="$emit('input', $event.target.value);"
+    @input="$emit('input', $event.target.value)"
   />
 </template>
 <script>
 export default {
   props: { value: { type: String, default: "" } }
-};
+}
 </script>
 
 <style lang="scss" scoped>

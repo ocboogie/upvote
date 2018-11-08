@@ -1,9 +1,9 @@
-import Vote from "./model";
+import Vote from "./model"
 
 export default {
   async vote({ id: postId, vote }) {
     if (!this.id) {
-      return;
+      return
     }
     if (vote === "none") {
       const voteInstance = await Vote.findOne({
@@ -11,16 +11,16 @@ export default {
           postId,
           id: this.id
         }
-      });
-      voteInstance.destroy();
+      })
+      voteInstance.destroy()
 
-      return;
+      return
     }
 
     Vote.upsert({
       postId,
       id: this.id,
       vote: vote === "downvote" ? -1 : 1
-    });
+    })
   }
-};
+}

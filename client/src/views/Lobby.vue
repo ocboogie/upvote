@@ -8,7 +8,7 @@
           :disabled="!isHost && playerStage === 'inLobby'"
           class="start-button"
           @click.native="
-            () => (playerStage === 'inGame' ? backToGame() : startGame());
+            ;() => (playerStage === 'inGame' ? backToGame() : startGame())
           "
         >
           {{ playerStage === "inGame" ? "Back to game" : "Start" }}
@@ -26,11 +26,11 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import AwsomInput from "@/components//AwsomInput.vue";
-import AwsomButton from "@/components/AwsomButton.vue";
-import AwsomCard from "@/components/AwsomCard.vue";
-import PlayerList from "@/components/PlayerList.vue";
+import { mapState, mapActions } from "vuex"
+import AwsomInput from "@/components//AwsomInput.vue"
+import AwsomButton from "@/components/AwsomButton.vue"
+import AwsomCard from "@/components/AwsomCard.vue"
+import PlayerList from "@/components/PlayerList.vue"
 
 export default {
   components: {
@@ -46,16 +46,16 @@ export default {
       isHost: state => state.lobby.isHost
     }),
     inviteUrl() {
-      return `${window.location.origin}/?${this.lobbyId}`;
+      return `${window.location.origin}/?${this.lobbyId}`
     }
   },
   methods: {
     ...mapActions(["startGame"]),
     backToGame() {
-      this.$router.push("game");
+      this.$router.push("game")
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .lobby-page {

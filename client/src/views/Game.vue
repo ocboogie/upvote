@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import PostForm from "@/components/PostForm.vue";
-import Posts from "@/components/Posts.vue";
-import PlayerList from "@/components/PlayerList.vue";
+import PostForm from "@/components/PostForm.vue"
+import Posts from "@/components/Posts.vue"
+import PlayerList from "@/components/PlayerList.vue"
 
 export default {
   components: {
@@ -19,7 +19,7 @@ export default {
     PostForm,
     PlayerList
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .game-page {

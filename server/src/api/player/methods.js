@@ -1,14 +1,14 @@
-import uuid from "uuid/v4";
-import { Op, literal } from "sequelize";
-import Player from "./model";
-import Post from "../post/model";
-import { broadcast, emit } from "../../wss";
-import Vote from "../vote/model";
+import uuid from "uuid/v4"
+import { Op, literal } from "sequelize"
+import Player from "./model"
+import Post from "../post/model"
+import { broadcast, emit } from "../../wss"
+import Vote from "../vote/model"
 
 Player.register = async (socket, name, lobbyId, hosting = false) => {
   if (socket.id) {
-    emit(socket, "alreadyInALobby");
-    return;
+    emit(socket, "alreadyInALobby")
+    return
   }
 
   const existingPlayer = await Player.findOne({
@@ -16,39 +16,39 @@ Player.register = async (socket, name, lobbyId, hosting = false) => {
       name,
       lobbyId
     }
-  });
+  })
   if (existingPlayer !== null) {
-    emit(socket, "existingPlayer");
-    return;
+    emit(socket, "existingPlayer")
+    return
   }
 
   // eslint-disable-next-line no-param-reassign
-  socket.id = uuid();
+  socket.id = uuid()
   // eslint-disable-next-line no-param-reassign
-  socket.lobbyId = lobbyId;
+  socket.lobbyId = lobbyId
 
   const player = await Player.create({
     id: socket.id,
     lobbyId,
     name,
     hosting
-  });
+  })
 
   // eslint-disable-next-line consistent-return
-  return player;
-};
+  return player
+}
 
 Player.sendRemovePostsToClients = async (disconnectedSocketId, lobbyId) => {
   const posts = await Post.findAll({
     where: { playerId: disconnectedSocketId }
-  });
+  })
 
   if (!posts.length) {
-    return;
+    return
   }
 
-  broadcast("removePosts", lobbyId, posts.map(post => post.id));
-};
+  broadcast("removePosts", lobbyId, posts.map(post => post.id))
+}
 
 Player.updateClientsVotes = async (disconnectedSocketId, lobbyId) =>
   broadcast(
@@ -79,10 +79,10 @@ Player.updateClientsVotes = async (disconnectedSocketId, lobbyId) =>
       ]
     })).reduce((posts, post) => {
       // eslint-disable-next-line no-param-reassign
-      posts[post.id] = { upvotes: post.get("upvotes") || 0 };
-      return posts;
+      posts[post.id] = { upvotes: post.get("upvotes") || 0 }
+      return posts
     }, {})
-  );
+  )
 
 Player.sendRemovedPlayerToClients = (name, lobbyId, excludedSocketId) =>
   broadcast(
@@ -90,7 +90,7 @@ Player.sendRemovedPlayerToClients = (name, lobbyId, excludedSocketId) =>
     lobbyId,
     name,
     client => client.id !== excludedSocketId
-  );
+  )
 
 Player.sendNewPlayerToClients = (name, lobbyId, excludedSocketId) =>
   broadcast(
@@ -98,4 +98,4 @@ Player.sendNewPlayerToClients = (name, lobbyId, excludedSocketId) =>
     lobbyId,
     name,
     client => client.id !== excludedSocketId
-  );
+  )

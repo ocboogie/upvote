@@ -5,9 +5,9 @@
   </form>
 </template>
 <script>
-import { mapActions } from "vuex";
-import AwsomInput from "./AwsomInput.vue";
-import AwsomButton from "./AwsomButton.vue";
+import { mapActions } from "vuex"
+import AwsomInput from "./AwsomInput.vue"
+import AwsomButton from "./AwsomButton.vue"
 
 export default {
   components: {
@@ -18,15 +18,15 @@ export default {
   methods: {
     ...mapActions(["post"]),
     submit(e) {
-      e.preventDefault();
+      e.preventDefault()
       if (!this.content) {
-        return;
+        return
       }
-      this.post(this.content);
-      this.content = "";
+      this.post(this.content)
+      this.content = ""
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped></style>

@@ -1,19 +1,19 @@
-import dotenv from "dotenv";
-import WebSocket from "ws";
+import dotenv from "dotenv"
+import WebSocket from "ws"
 
-dotenv.config();
+dotenv.config()
 
-const port = process.env.PORT;
+const port = process.env.PORT
 
 const wss = new WebSocket.Server({
   port
-});
+})
 
 export const messageCreator = (type, payload) =>
-  JSON.stringify({ type, payload });
+  JSON.stringify({ type, payload })
 
 export const emit = (who, type, payload) =>
-  who.send(messageCreator(type, payload));
+  who.send(messageCreator(type, payload))
 
 export const broadcast = (type, lobbyId, payload, filter) =>
   wss.clients.forEach(client => {
@@ -23,8 +23,8 @@ export const broadcast = (type, lobbyId, payload, filter) =>
       client.lobbyId === lobbyId &&
       (!filter || filter(client))
     ) {
-      client.send(messageCreator(type, payload));
+      client.send(messageCreator(type, payload))
     }
-  });
+  })
 
-export default wss;
+export default wss

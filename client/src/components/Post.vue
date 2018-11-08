@@ -28,8 +28,8 @@
   </awsom-card>
 </template>
 <script>
-import { mapActions } from "vuex";
-import AwsomCard from "./AwsomCard.vue";
+import { mapActions } from "vuex"
+import AwsomCard from "./AwsomCard.vue"
 
 export default {
   components: {
@@ -63,16 +63,16 @@ export default {
       this.voteForPost({
         id: this.id,
         vote: this.vote === "upvote" ? "none" : "upvote"
-      });
+      })
     },
     downvote() {
       this.voteForPost({
         id: this.id,
         vote: this.vote === "downvote" ? "none" : "downvote"
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

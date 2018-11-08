@@ -1,11 +1,11 @@
-import Vue from "vue";
-import Router from "vue-router";
-import { emit } from "./socket";
-import store from "./store/index";
-import MainMenu from "./views/MainMenu";
-import Game from "./views/Game";
+import Vue from "vue"
+import Router from "vue-router"
+import { emit } from "./socket"
+import store from "./store/index"
+import MainMenu from "./views/MainMenu"
+import Game from "./views/Game"
 
-Vue.use(Router);
+Vue.use(Router)
 
 const router = new Router({
   mode: "history",
@@ -34,7 +34,7 @@ const router = new Router({
     },
     { path: "*", redirect: "/" }
   ]
-});
+})
 
 router.beforeEach((to, from, next) => {
   if (
@@ -46,11 +46,11 @@ router.beforeEach((to, from, next) => {
         (from.name === null && record.meta.requiresAuth === "pageLoad")
     )
   ) {
-    next("/");
-    return;
+    next("/")
+    return
   }
-  next();
-});
+  next()
+})
 
 router.afterEach(to => {
   if (
@@ -58,26 +58,26 @@ router.afterEach(to => {
     (store.state.player.stage === "inGame" ||
       store.state.player.stage === "inLobby")
   ) {
-    emit("leaveLobby");
+    emit("leaveLobby")
   }
-});
+})
 
 const stageRouteMap = {
   inGame: "/game",
   inLobby: "/lobby",
   connected: "/"
-};
+}
 
 store.subscribe(mutation => {
   if (mutation.type !== "setStage") {
-    return;
+    return
   }
 
-  const targetRoute = stageRouteMap[mutation.payload];
+  const targetRoute = stageRouteMap[mutation.payload]
   if (targetRoute === router.currentRoute.path) {
-    return;
+    return
   }
-  router.push(targetRoute);
-});
+  router.push(targetRoute)
+})
 
-export default router;
+export default router

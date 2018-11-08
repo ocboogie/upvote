@@ -45,10 +45,10 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import OrbitSpinner from "@/components/OrbitSpinner.vue";
-import AwsomInput from "@/components/AwsomInput.vue";
-import AwsomButton from "@/components/AwsomButton.vue";
+import { mapActions, mapState } from "vuex"
+import OrbitSpinner from "@/components/OrbitSpinner.vue"
+import AwsomInput from "@/components/AwsomInput.vue"
+import AwsomButton from "@/components/AwsomButton.vue"
 
 export default {
   components: {
@@ -67,26 +67,26 @@ export default {
     ...mapActions(["joinLobby", "createLobby", "setJoinError"]),
     nameChcek() {
       if (!this.name) {
-        this.setJoinError("You must enter a name.");
-        return true;
+        this.setJoinError("You must enter a name.")
+        return true
       }
-      return false;
+      return false
     },
     onSubmit(e) {
-      e.preventDefault();
+      e.preventDefault()
       if (this.nameChcek()) {
-        return;
+        return
       }
-      this.joinLobby(this.name);
+      this.joinLobby(this.name)
     },
     customGame() {
       if (this.nameChcek()) {
-        return;
+        return
       }
-      this.createLobby(this.name);
+      this.createLobby(this.name)
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .hero {
