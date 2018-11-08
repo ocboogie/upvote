@@ -1,64 +1,77 @@
+import sequelize from "sequelize";
 import Player from "./model";
-// import Post from "../post/model";
+import Lobby from "../lobby/model";
 import Vote from "../vote/model";
+import Post from "../post/model";
 import { emit } from "../../wss";
 
 export default {
-  // Make this function async
-  joinGame(name) {
-    Player.login(this, name)
-      .then(player => {
-        if (!player) {
-          return;
-        }
+  async joinLobby({ name, lobbyId: targetLobbyId }) {
+    const lobbyId = targetLobbyId || global.mainLobbyId;
 
-        global.mainLobby.addPlayer(player);
-        this.lobbyId = global.mainLobby.id;
+    const lobby = await Lobby.findByPk(lobbyId);
 
-        // eslint-disable-next-line consistent-return
-        return global.mainLobby.getPosts();
-      })
-      .then(posts => {
-        if (!posts) {
-          return;
-        }
+    if (!lobby) {
+      emit(this, "lobbyNotFound");
+      return;
+    }
 
-        // TODO: Make this not look awful
-        // eslint-disable-next-line consistent-return
-        return Promise.all([
-          Promise.all(
-            posts.map(post =>
-              Promise.all([
-                Vote.sum("vote", { where: { postId: post.id } }),
-                Player.findOne({
-                  where: { id: post.authorSocketId }
-                })
-              ]).then(([upvotes, authorPlayer]) => ({
-                content: post.content,
-                createdAt: post.createdAt,
-                id: post.id,
-                author: authorPlayer.name,
-                upvotes: upvotes || 0
-              }))
-            )
-          ),
-          Player.findAll({ where: {} })
-        ]);
-      })
-      .then(([posts, players]) => {
-        emit(this, "joinedGame", {
-          posts,
-          playerList: players.map(player => player.name)
-        });
+    const player = await Player.register(this, name, lobbyId);
+    if (!player) {
+      return;
+    }
+
+    if (!lobby.inGame) {
+      emit(this, "joinedLobby", {
+        players: (await Player.findAll({
+          attributes: ["name"],
+          where: { lobbyId }
+        })).map(otherPlayer => otherPlayer.name),
+        lobbyId
       });
+      return;
+    }
+
+    const [posts, players] = await Promise.all([
+      Post.findAll({
+        group: ["post.id"],
+        attributes: [
+          "content",
+          "createdAt",
+          "id",
+          [sequelize.col("player.name"), "author"],
+          [
+            sequelize.fn(
+              "COALESCE",
+              sequelize.fn("SUM", sequelize.col("votes.vote")),
+              0
+            ),
+            "upvotes"
+          ]
+        ],
+        include: [
+          { model: Player, attributes: [] },
+          { model: Vote, attributes: [] }
+        ],
+        where: { lobbyId }
+      }),
+      Player.findAll({ attributes: ["name"], where: { lobbyId } })
+    ]);
+
+    emit(this, "joinedGame", {
+      posts,
+      players: players.map(otherPlayer => otherPlayer.name)
+    });
   },
   async leaveLobby() {
     if (!this.id) {
       return;
     }
-    const player = await Player.findById(this.id);
-    player.destroy();
+
+    await Player.destroy({ where: { id: this.id }, individualHooks: true });
+
     delete this.id;
+    delete this.lobbyId;
     emit(this, "leftLobby");
   }
 };

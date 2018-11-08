@@ -1,17 +1,11 @@
-<!-- This is copied and pasted from https://github.com/epicmaxco/epic-spinners/blob/master/src/components/lib/OrbitSpinner.vue -->
+<!--
+  This is copied and pasted from https://github.com/epicmaxco/epic-spinners/blob/master/src/components/lib/OrbitSpinner.vue
+-->
 <template>
-  <div 
-    :style="spinnerStyle" 
-    class="orbit-spinner">
-    <div 
-      :style="orbitStyle" 
-      class="orbit one"/>
-    <div 
-      :style="orbitStyle" 
-      class="orbit two"/>
-    <div 
-      :style="orbitStyle" 
-      class="orbit three"/>
+  <div :style="spinnerStyle" class="orbit-spinner">
+    <div :style="orbitStyle" class="orbit one" />
+    <div :style="orbitStyle" class="orbit two" />
+    <div :style="orbitStyle" class="orbit three" />
   </div>
 </template>
 

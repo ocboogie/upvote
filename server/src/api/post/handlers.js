@@ -8,12 +8,17 @@ export default {
       return;
     }
 
-    const post = await Post.create({ authorSocketId: this.id, content });
-    global.mainLobby.addPost(post);
+    const lobbyId = this.lobbyId || global.mainLobbyId;
 
-    const { name } = await Player.findById(this.id);
+    const post = await Post.create({
+      playerId: this.id,
+      content,
+      lobbyId
+    });
 
-    broadcast("newPost", {
+    const { name } = await Player.findByPk(this.id);
+
+    broadcast("newPost", lobbyId, {
       content: post.content,
       createdAt: post.createdAt,
       id: post.id,

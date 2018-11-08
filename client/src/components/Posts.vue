@@ -1,11 +1,7 @@
 <template>
   <div class="posts">
     <transition-group name="post-list">
-      <Post 
-        v-for="post in posts" 
-        :key="post.id" 
-        v-bind="post"
-      />
+      <Post v-for="post in posts" :key="post.id" v-bind="post" />
     </transition-group>
   </div>
 </template>

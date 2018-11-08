@@ -13,8 +13,8 @@ const Post = sequelize.define("post", {
 });
 
 Post.belongsTo(Player, {
-  foreignKey: "authorSocketId",
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
+  foreignKey: "playerId"
 });
 
 Post.hasMany(Vote);

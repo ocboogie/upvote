@@ -8,7 +8,7 @@ const Lobby = sequelize.define("lobby", {
   id: {
     type: Sequelize.STRING,
     primaryKey: true,
-    defaultValue: () => nanoid()
+    defaultValue: () => nanoid(global.lobbyIdLength)
   },
   prompt: {
     type: Sequelize.STRING
@@ -31,7 +31,7 @@ const Lobby = sequelize.define("lobby", {
 Lobby.hasMany(Post, { onDelete: "CASCADE" });
 Lobby.hasMany(Player, { onDelete: "CASCADE" });
 Lobby.belongsTo(Player, {
-  foreignKey: "hostSocketId",
+  as: "host",
   constraints: false
 });
 

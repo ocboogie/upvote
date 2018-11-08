@@ -15,11 +15,12 @@ export const messageCreator = (type, payload) =>
 export const emit = (who, type, payload) =>
   who.send(messageCreator(type, payload));
 
-export const broadcast = (type, payload, filter) =>
+export const broadcast = (type, lobbyId, payload, filter) =>
   wss.clients.forEach(client => {
     if (
       client.readyState === WebSocket.OPEN &&
       client.id &&
+      client.lobbyId === lobbyId &&
       (!filter || filter(client))
     ) {
       client.send(messageCreator(type, payload));

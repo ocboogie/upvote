@@ -1,34 +1,40 @@
 <template>
-  <div class="post">
+  <awsom-card paddingless class="post">
     <div class="upvotes">
-      <button 
-        :class="{'is-selected': vote === 'upvote'}" 
-        class="arrow upvote" 
+      <button
+        :class="{ 'is-selected': vote === 'upvote' }"
+        class="arrow upvote"
         @click="upvote"
       >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="12.5 12.5 25 25"><path d="M33.3 28.7L25 20.4l-8.3 8.3-1.4-1.4 9.7-9.7 9.7 9.7z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="12.5 12.5 25 25">
+          <path d="M33.3 28.7L25 20.4l-8.3 8.3-1.4-1.4 9.7-9.7 9.7 9.7z" />
+        </svg>
       </button>
       {{ upvotes }}
-      <button 
-        :class="{'is-selected': vote === 'downvote'}" 
-        class="arrow downvote" 
+      <button
+        :class="{ 'is-selected': vote === 'downvote' }"
+        class="arrow downvote"
         @click="downvote"
       >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="12.5 12.5 25 25"><path d="M25 32.4l-9.7-9.7 1.4-1.4 8.3 8.3 8.3-8.3 1.4 1.4z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="12.5 12.5 25 25">
+          <path d="M25 32.4l-9.7-9.7 1.4-1.4 8.3 8.3 8.3-8.3 1.4 1.4z" />
+        </svg>
       </button>
     </div>
-    <div class="body">{{ content }}<div class="author">By {{ author }}</div></div>
-    
-  </div>
+    <div class="body">
+      {{ content }}
+      <div class="author">By {{ author }}</div>
+    </div>
+  </awsom-card>
 </template>
 <script>
 import { mapActions } from "vuex";
+import AwsomCard from "./AwsomCard.vue";
 
 export default {
+  components: {
+    AwsomCard
+  },
   props: {
     upvotes: {
       type: Number,
@@ -71,12 +77,6 @@ export default {
 
 <style lang="scss" scoped>
 .post {
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  border: 1px solid $border-lighter-color;
-  background-color: $white;
-  overflow: hidden;
-  color: $text-primary-color;
   margin-bottom: 1rem;
 
   display: flex;

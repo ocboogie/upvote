@@ -4,6 +4,8 @@ import handlers from "./api";
 import sequelize from "./sequelize";
 import wss from "./wss";
 
+global.lobbyIdLength = 10;
+
 sequelize
   .sync()
   .then(() =>
@@ -13,7 +15,7 @@ sequelize
     })
   )
   .then(lobby => {
-    global.mainLobby = lobby;
+    global.mainLobbyId = lobby.id;
   });
 
 wss.on("connection", ws => {
@@ -24,9 +26,7 @@ wss.on("connection", ws => {
     if (!this.id) {
       return;
     }
-    Player.findById(this.id).then(player => {
-      player.destroy();
-    });
+    Player.destroy({ where: { id: this.id }, individualHooks: true });
   });
 });
 

@@ -1,11 +1,13 @@
 import "./player/methods";
 import "./player/hooks";
 import "./vote/hooks";
+import lobbyHandlers from "./lobby/handlers";
 import playerHandlers from "./player/handlers";
 import postHandlers from "./post/handlers";
 import voteHandlers from "./vote/handlers";
 
 const handlers = {
+  ...lobbyHandlers,
   ...playerHandlers,
   ...postHandlers,
   ...voteHandlers

@@ -1,48 +1,44 @@
 <template>
-  <div class="player-list">
-    <h3>
-      Players
-    </h3>
+  <awsom-card class="player-list">
+    <h3 class="header">Players</h3>
     <!-- TODO: Add a group transition -->
-    <ul>
-      <li 
-        v-for="name in players"
-        :key="name" 
-        class="player"
-      >{{ name }}<template v-if="name === playersName"> (you)</template></li>
+    <ul class="list">
+      <li v-for="name in players" :key="name" class="player">
+        {{ name
+        }}<span v-if="name === playersName" class="you-label"> (you)</span>
+      </li>
     </ul>
-  </div>
+  </awsom-card>
 </template>
 <script>
 import { mapState } from "vuex";
+import AwsomCard from "./AwsomCard.vue";
 
 export default {
+  components: {
+    AwsomCard
+  },
   computed: mapState({
-    players: "playerList",
+    players: state => state.lobby.players,
     playersName: state => state.player.name
   })
 };
 </script>
 <style lang="scss" scoped>
 .player-list {
-  padding: 1rem;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  border: 1px solid $border-lighter-color;
-  background-color: $white;
-  overflow: hidden;
-  color: $text-primary-color;
-  h3 {
+  .header {
     margin-top: 0;
     margin-bottom: 0.3rem;
   }
-  ul {
+  .list {
     line-height: 1.35;
     list-style-type: none;
     padding-left: 0.5rem;
     margin-top: 0;
     margin-bottom: 0;
+    .you-label {
+      color: rgba(0, 0, 0, 0.6);
+    }
   }
 }
 </style>
-

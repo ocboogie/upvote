@@ -1,6 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
+import { emit } from "./socket";
 import store from "./store/index";
+import MainMenu from "./views/MainMenu";
+import Game from "./views/Game";
 
 Vue.use(Router);
 
@@ -11,21 +14,23 @@ const router = new Router({
     {
       path: "/",
       name: "mainMenu",
-      component: () =>
-        import(/* webpackChunkName: "mainMenu" */ "./views/MainMenu.vue")
+      component: MainMenu,
+      meta: { depth: 0 }
     },
     {
       path: "/lobby",
       name: "lobby",
       component: () =>
-        import(/* webpackChunkName: "lobby" */ "./views/Lobby.vue")
+        import(/* webpackChunkName: "lobby" */ "./views/Lobby.vue"),
+      meta: { requiresAuth: "on", depth: 1 }
     },
     {
       path: "/game",
       name: "game",
-      component: () =>
-        import(/* webpackChunkName: "game" */ "./views/Game.vue"),
-      meta: { requiresAuth: "pageLoad" }
+      // component: () =>
+      //   import(/* webpackChunkName: "game" */ "./views/Game.vue"),
+      component: Game,
+      meta: { requiresAuth: "on", depth: 2 }
     },
     { path: "*", redirect: "/" }
   ]
@@ -33,7 +38,8 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (
-    store.state.player.stage !== "inGame" &&
+    (store.state.player.stage === "connected" ||
+      store.state.player.stage === "connecting") &&
     to.matched.some(
       record =>
         record.meta.requiresAuth === "on" || // `from.name` is null on page load
@@ -44,6 +50,34 @@ router.beforeEach((to, from, next) => {
     return;
   }
   next();
+});
+
+router.afterEach(to => {
+  if (
+    to.path === "/" &&
+    (store.state.player.stage === "inGame" ||
+      store.state.player.stage === "inLobby")
+  ) {
+    emit("leaveLobby");
+  }
+});
+
+const stageRouteMap = {
+  inGame: "/game",
+  inLobby: "/lobby",
+  connected: "/"
+};
+
+store.subscribe(mutation => {
+  if (mutation.type !== "setStage") {
+    return;
+  }
+
+  const targetRoute = stageRouteMap[mutation.payload];
+  if (targetRoute === router.currentRoute.path) {
+    return;
+  }
+  router.push(targetRoute);
 });
 
 export default router;

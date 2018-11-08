@@ -5,7 +5,7 @@ import Post from "../post/model";
 import { broadcast, emit } from "../../wss";
 import Vote from "../vote/model";
 
-Player.login = async (socket, name) => {
+Player.register = async (socket, name, lobbyId, hosting = false) => {
   if (socket.id) {
     emit(socket, "alreadyInALobby");
     return;
@@ -13,7 +13,8 @@ Player.login = async (socket, name) => {
 
   const existingPlayer = await Player.findOne({
     where: {
-      name
+      name,
+      lobbyId
     }
   });
   if (existingPlayer !== null) {
@@ -23,62 +24,78 @@ Player.login = async (socket, name) => {
 
   // eslint-disable-next-line no-param-reassign
   socket.id = uuid();
+  // eslint-disable-next-line no-param-reassign
+  socket.lobbyId = lobbyId;
 
   const player = await Player.create({
     id: socket.id,
-    name
+    lobbyId,
+    name,
+    hosting
   });
 
   // eslint-disable-next-line consistent-return
   return player;
 };
 
-Player.sendRemovePostsToClients = async disconnectedSocketId => {
+Player.sendRemovePostsToClients = async (disconnectedSocketId, lobbyId) => {
   const posts = await Post.findAll({
-    where: { authorSocketId: disconnectedSocketId }
+    where: { playerId: disconnectedSocketId }
   });
 
   if (!posts.length) {
     return;
   }
 
-  broadcast("removePosts", posts.map(post => post.id));
+  broadcast("removePosts", lobbyId, posts.map(post => post.id));
 };
 
-Player.updateClientsVotes = async disconnectedSocketId =>
-  (await Post.findAll({
-    attributes: [
-      "id",
-      [
-        literal(
-          `(SELECT SUM("votes"."vote") FROM votes WHERE "votes"."postId"="post"."id" AND "votes"."id"!=$1 )`
-        ),
-        "upvotes"
-      ]
-    ],
-    bind: [disconnectedSocketId],
-    where: {
-      authorSocketId: { [Op.ne]: disconnectedSocketId }
-    },
-    include: [
-      {
-        model: Vote,
-        required: true,
-        where: {
-          id: disconnectedSocketId
+Player.updateClientsVotes = async (disconnectedSocketId, lobbyId) =>
+  broadcast(
+    "updatePosts",
+    lobbyId,
+    (await Post.findAll({
+      attributes: [
+        "id",
+        [
+          literal(
+            `(SELECT SUM("votes"."vote") FROM votes WHERE "votes"."postId"="post"."id" AND "votes"."id"!=$1 )`
+          ),
+          "upvotes"
+        ]
+      ],
+      bind: [disconnectedSocketId],
+      where: {
+        playerId: { [Op.ne]: disconnectedSocketId }
+      },
+      include: [
+        {
+          model: Vote,
+          required: true,
+          where: {
+            id: disconnectedSocketId
+          }
         }
-      }
-    ]
-  })).forEach(post => {
-    broadcast("updatePost", {
-      id: post.id,
-      modPost: {
-        upvotes: post.get("upvotes") || 0
-      }
-    });
-  });
+      ]
+    })).reduce((posts, post) => {
+      // eslint-disable-next-line no-param-reassign
+      posts[post.id] = { upvotes: post.get("upvotes") || 0 };
+      return posts;
+    }, {})
+  );
 
-Player.sendRemovedPlayerToClients = (name, excludedSocketId) =>
-  broadcast("removePlayer", name, client => client.id !== excludedSocketId);
-Player.sendNewPlayerToClients = (name, excludedSocketId) =>
-  broadcast("newPlayer", name, client => client.id !== excludedSocketId);
+Player.sendRemovedPlayerToClients = (name, lobbyId, excludedSocketId) =>
+  broadcast(
+    "removePlayer",
+    lobbyId,
+    name,
+    client => client.id !== excludedSocketId
+  );
+
+Player.sendNewPlayerToClients = (name, lobbyId, excludedSocketId) =>
+  broadcast(
+    "newPlayer",
+    lobbyId,
+    name,
+    client => client.id !== excludedSocketId
+  );

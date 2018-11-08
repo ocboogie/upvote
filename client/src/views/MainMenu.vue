@@ -1,46 +1,52 @@
 <template>
-  <div class="main-menu">
-    <img 
-      alt="Vue logo" 
-      src="../assets/logo.png"
-    >
-    <form @submit="onSubmit">
-      <label 
-        class="name-label" 
-        for="nameInput"
-      >Enter your name</label>
-      <awsom-input 
-        id="nameInput" 
-        v-model="name" 
-        :class="{'is-error': Boolean(error)}" 
-        type="text" 
-        class="name-input" 
-        placeholder="Name"
-        autocomplete="off"
-      />
-      <transition name="scale-fade">
-        <span 
-          v-if="Boolean(error)" 
-          class="error"
-        >{{ error }}</span>
-      </transition>
-      <awsom-button 
-        :loading="playerStage === 'connecting'"
-        type="submit"
-        class="join-button"
-      >
-        Join
-        <template slot="loading">
-          <orbit-spinner :size="25" />
-        </template>
-      </awsom-button>
-    </form>
+  <div>
+    <div class="main-menu">
+      <div class="hero">
+        <transition name="connecting-slide" mode="out-in">
+          <div v-if="playerStage === 'connecting'" class="connecting">
+            <orbit-spinner :size="100" color="#e74c3c" />
+          </div>
+          <img v-else alt="Vue logo" src="../assets/logo.png" />
+        </transition>
+      </div>
+      <form @submit="onSubmit">
+        <label class="name-label" for="nameInput">Enter your name</label>
+        <awsom-input
+          id="nameInput"
+          v-model="name"
+          :class="{ 'is-error': Boolean(error) }"
+          type="text"
+          class="name-input"
+          placeholder="Name"
+          autocomplete="off"
+        />
+        <transition name="scale-fade">
+          <span v-if="Boolean(error)" class="error">{{ error }}</span>
+        </transition>
+        <awsom-button
+          :disabled="playerStage === 'connecting'"
+          native-type="submit"
+          class="join-button"
+        >
+          Join
+        </awsom-button>
+        <awsom-button
+          :disabled="playerStage === 'connecting'"
+          native-type="button"
+          type="info"
+          class="private-game-button"
+          @click.native="customGame"
+        >
+          Create private game
+        </awsom-button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
-import OrbitSpinner from "@/components/OrbitSpinner";
+import OrbitSpinner from "@/components/OrbitSpinner.vue";
 import AwsomInput from "@/components/AwsomInput.vue";
 import AwsomButton from "@/components/AwsomButton.vue";
 
@@ -57,36 +63,72 @@ export default {
     error: state => state.player.error,
     playerStage: state => state.player.stage
   }),
-  watch: {
-    playerStage(playerStage) {
-      if (playerStage === "inGame") {
-        this.$router.push("/game");
-      }
-    }
-  },
   methods: {
-    ...mapActions(["joinGame", "setJoinError"]),
-    onSubmit(e) {
-      e.preventDefault();
+    ...mapActions(["joinLobby", "createLobby", "setJoinError"]),
+    nameChcek() {
       if (!this.name) {
         this.setJoinError("You must enter a name.");
+        return true;
+      }
+      return false;
+    },
+    onSubmit(e) {
+      e.preventDefault();
+      if (this.nameChcek()) {
         return;
       }
-      this.joinGame(this.name);
+      this.joinLobby(this.name);
+    },
+    customGame() {
+      if (this.nameChcek()) {
+        return;
+      }
+      this.createLobby(this.name);
     }
   }
 };
 </script>
 <style lang="scss" scoped>
+.hero {
+  height: 210px;
+}
+.connecting-slide-enter-active {
+  transition: transform 0.25s cubic-bezier(0, 0, 0.1, 1);
+}
+.connecting-slide-enter {
+  transform: translateY(-100%);
+}
+
+.connecting-slide-leave-active {
+  transition: opacity 0.2s linear;
+}
+.connecting-slide-leave-to {
+  opacity: 0;
+}
+
+.connecting {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
+}
+
 .main-menu {
   background-color: $white;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  top: 0;
-  z-index: 1;
   text-align: center;
+  button {
+    display: block;
+    margin: auto;
+    min-width: 100px;
+    margin-top: 0.5rem;
+  }
+  .join-button {
+    font-size: 1.5rem;
+  }
+  .private-game-button {
+    font-size: 1.3rem;
+  }
 }
 
 .name-label {
@@ -112,11 +154,6 @@ export default {
   font-size: 1.4rem;
   color: $error-color;
   display: block;
-}
-.join-button {
-  min-width: 100px;
-  margin-top: 0.5rem;
-  font-size: 1.5rem;
 }
 .scale-fade-enter-active {
   transition: font-size 0.2s ease, opacity 0.1s ease-out 0.15s;

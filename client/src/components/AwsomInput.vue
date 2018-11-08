@@ -1,9 +1,9 @@
 <template>
-  <input 
-    :value="value" 
-    class="awsom-input" 
-    @input="$emit('input', $event.target.value)"
-  >
+  <input
+    :value="value"
+    class="awsom-input"
+    @input="$emit('input', $event.target.value);"
+  />
 </template>
 <script>
 export default {

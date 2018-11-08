@@ -1,10 +1,7 @@
 <template>
   <form @submit="submit">
-    <awsom-input 
-      v-model="content" 
-      placeholder="Post content"
-    />
-    <awsom-button>Post</awsom-button>
+    <awsom-input v-model="content" placeholder="Post content" />
+    <awsom-button native-type="submit">Post</awsom-button>
   </form>
 </template>
 <script>
@@ -32,5 +29,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

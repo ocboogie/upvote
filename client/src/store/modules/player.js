@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import { emit } from "../../socket";
 
 export default {
   state: {
@@ -19,12 +18,8 @@ export default {
     }
   },
   actions: {
-    joinGame(context, name) {
-      context.commit("setName", name);
-      emit("joinGame", name);
-    },
     connected(context) {
-      context.commit("setStage", "inMainMenu");
+      context.commit("setStage", "connected");
     },
     setJoinError(context, error) {
       context.commit("setJoinError", error);
@@ -35,11 +30,6 @@ export default {
     },
     alreadyInALobbyEvent(context) {
       context.commit("setJoinError", "You're already in a lobby.");
-    },
-    leftLobbyEvent(context) {
-      context.commit("setStage", "inMainMenu");
-      context.commit("clearPosts");
-      context.commit("clearPlayerList");
     }
   }
 };
