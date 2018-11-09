@@ -3,7 +3,6 @@ import Router from "vue-router"
 import { emit } from "./socket"
 import store from "./store/index"
 import MainMenu from "./views/MainMenu"
-import Game from "./views/Game"
 
 Vue.use(Router)
 
@@ -27,9 +26,8 @@ const router = new Router({
     {
       path: "/game",
       name: "game",
-      // component: () =>
-      //   import(/* webpackChunkName: "game" */ "./views/Game.vue"),
-      component: Game,
+      component: () =>
+        import(/* webpackChunkName: "game" */ "./views/Game.vue"),
       meta: { requiresAuth: "on", depth: 2 }
     },
     { path: "*", redirect: "/" }
