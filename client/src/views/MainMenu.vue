@@ -3,10 +3,10 @@
     <div class="main-menu">
       <div class="hero">
         <transition name="connecting-slide" mode="out-in">
-          <img
+          <logo
             v-if="playerStage !== 'connecting' && logoLoaded"
-            alt="Vue logo"
-            src="../assets/logo.png"
+            width="200px"
+            height="200px"
           />
           <div v-else class="connecting">
             <orbit-spinner :size="100" color="#e74c3c" />
@@ -52,13 +52,15 @@
 import { mapActions, mapState } from "vuex"
 import logoPath from "../assets/logo.png"
 import OrbitSpinner from "@/components/OrbitSpinner.vue"
+import Logo from "@/components/Logo.vue"
 
 // This is use to prevent preloading when the image is already cached
 let alreadyLoadedImage = false
 
 export default {
   components: {
-    OrbitSpinner
+    OrbitSpinner,
+    Logo
   },
   data: () => ({
     name: "",
