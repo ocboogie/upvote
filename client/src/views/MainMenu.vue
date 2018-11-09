@@ -3,10 +3,14 @@
     <div class="main-menu">
       <div class="hero">
         <transition name="connecting-slide" mode="out-in">
-          <div v-if="playerStage === 'connecting'" class="connecting">
+          <img
+            v-if="playerStage !== 'connecting' && logoLoaded"
+            alt="Vue logo"
+            src="../assets/logo.png"
+          />
+          <div v-else class="connecting">
             <orbit-spinner :size="100" color="#e74c3c" />
           </div>
-          <img v-else alt="Vue logo" src="../assets/logo.png" />
         </transition>
       </div>
       <form @submit="onSubmit">
@@ -46,9 +50,13 @@
 
 <script>
 import { mapActions, mapState } from "vuex"
+import logoPath from "../assets/logo.png"
 import OrbitSpinner from "@/components/OrbitSpinner.vue"
 import AwsomInput from "@/components/AwsomInput.vue"
 import AwsomButton from "@/components/AwsomButton.vue"
+
+// This is use to prevent preloading when the image is already cached
+let alreadyLoadedImage = false
 
 export default {
   components: {
@@ -57,12 +65,24 @@ export default {
     OrbitSpinner
   },
   data: () => ({
-    name: ""
+    name: "",
+    logoLoaded: alreadyLoadedImage
   }),
   computed: mapState({
     error: state => state.player.error,
     playerStage: state => state.player.stage
   }),
+  mounted() {
+    if (!alreadyLoadedImage) {
+      // Load the image before running the image transition
+      const image = new Image()
+      image.src = logoPath
+      image.onload = () => {
+        this.logoLoaded = true
+        alreadyLoadedImage = true
+      }
+    }
+  },
   methods: {
     ...mapActions(["joinLobby", "createLobby", "setJoinError"]),
     nameChcek() {
