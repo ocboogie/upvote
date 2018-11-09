@@ -1,12 +1,12 @@
 <template>
   <div v-if="activeModalName !== null" class="modal-manager">
     <div class="background-dim" @click="closeModal" />
-    <awsom-card class="modal">
+    <base-card class="modal">
       <component :is="activeModal" v-bind="payload" />
-      <awsom-button
+      <base-button
         v-if="activeModal.modal.type === 'acknowledgement'"
         class="okay-button"
-        >Okay</awsom-button
+        >Okay</base-button
       >
       <div
         class="exit"
@@ -16,21 +16,15 @@
       >
         x
       </div>
-    </awsom-card>
+    </base-card>
   </div>
 </template>
 <script>
 // ---------Currently not in use---------
 import { mapState, mapActions } from "vuex"
-import AwsomCard from "./AwsomCard"
-import AwsomButton from "./AwsomButton"
 // import modals from "../modals";
 
 export default {
-  components: {
-    AwsomCard,
-    AwsomButton
-  },
   // modals,
   computed: {
     ...mapState({

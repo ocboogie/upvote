@@ -14,7 +14,6 @@
 </template>
 <script>
 import { mapState } from "vuex"
-import "./components/AwsomButton.vue"
 
 export default {
   data: () => ({ transition: "" }),

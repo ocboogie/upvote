@@ -2,39 +2,33 @@
   <div>
     <div class="lobby-page">
       <player-list class="player-list" />
-      <awsom-card class="lobby">
+      <base-card class="lobby">
         <h1 class="header">Lobby</h1>
-        <awsom-button
+        <base-button
           :disabled="!isHost && playerStage === 'inLobby'"
           class="start-button"
           @click.native="startButtonAction"
         >
           {{ playerStage === "inGame" ? "Back to game" : "Start" }}
-        </awsom-button>
+        </base-button>
         <label for="invite-url">Invite URL</label>
-        <awsom-input
+        <base-input
           id="invite-url"
           v-model="inviteUrl"
           class="invite-url"
           readonly
         />
-      </awsom-card>
+      </base-card>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex"
-import AwsomInput from "@/components//AwsomInput.vue"
-import AwsomButton from "@/components/AwsomButton.vue"
-import AwsomCard from "@/components/AwsomCard.vue"
 import PlayerList from "@/components/PlayerList.vue"
 
 export default {
   components: {
-    AwsomInput,
-    AwsomButton,
-    AwsomCard,
     PlayerList
   },
   computed: {

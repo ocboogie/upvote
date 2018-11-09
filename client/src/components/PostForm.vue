@@ -1,19 +1,13 @@
 <template>
   <form @submit="submit">
-    <awsom-input v-model="content" placeholder="Post content" />
-    <awsom-button native-type="submit">Post</awsom-button>
+    <base-input v-model="content" placeholder="Post content" />
+    <base-button native-type="submit">Post</base-button>
   </form>
 </template>
 <script>
 import { mapActions } from "vuex"
-import AwsomInput from "./AwsomInput.vue"
-import AwsomButton from "./AwsomButton.vue"
 
 export default {
-  components: {
-    AwsomInput,
-    AwsomButton
-  },
   data: () => ({ content: "" }),
   methods: {
     ...mapActions(["post"]),

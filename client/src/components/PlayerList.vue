@@ -1,5 +1,5 @@
 <template>
-  <awsom-card class="player-list">
+  <base-card class="player-list">
     <h3 class="header">Players</h3>
     <!-- TODO: Add a group transition -->
     <ul class="list">
@@ -8,16 +8,12 @@
         }}<span v-if="name === playersName" class="you-label"> (you)</span>
       </li>
     </ul>
-  </awsom-card>
+  </base-card>
 </template>
 <script>
 import { mapState } from "vuex"
-import AwsomCard from "./AwsomCard.vue"
 
 export default {
-  components: {
-    AwsomCard
-  },
   computed: mapState({
     players: state => state.lobby.players,
     playersName: state => state.player.name

@@ -1,7 +1,7 @@
 <template>
   <input
     :value="value"
-    class="awsom-input"
+    class="base-input"
     @input="$emit('input', $event.target.value)"
   />
 </template>
@@ -12,7 +12,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.awsom-input {
+.base-input {
   border-radius: 4px;
   border: 1px solid $border-base-color;
   outline: none;

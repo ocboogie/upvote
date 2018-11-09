@@ -3,7 +3,7 @@
     :class="[{ loading }, `button-type-${type}`]"
     :disabled="loading"
     :type="nativeType"
-    class="awsom-button"
+    class="base-button"
   >
     <slot v-if="loading" name="loading" /> <slot v-else />
   </button>
@@ -30,7 +30,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.awsom-button {
+.base-button {
   display: inline-block;
   line-height: 1;
   white-space: nowrap;

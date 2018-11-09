@@ -1,5 +1,5 @@
 <template>
-  <awsom-card paddingless class="post">
+  <base-card paddingless class="post">
     <div class="upvotes">
       <button
         :class="{ 'is-selected': vote === 'upvote' }"
@@ -25,16 +25,12 @@
       {{ content }}
       <div class="author">By {{ author }}</div>
     </div>
-  </awsom-card>
+  </base-card>
 </template>
 <script>
 import { mapActions } from "vuex"
-import AwsomCard from "./AwsomCard.vue"
 
 export default {
-  components: {
-    AwsomCard
-  },
   props: {
     upvotes: {
       type: Number,

@@ -15,7 +15,7 @@
       </div>
       <form @submit="onSubmit">
         <label class="name-label" for="nameInput">Enter your name</label>
-        <awsom-input
+        <base-input
           id="nameInput"
           v-model="name"
           :class="{ 'is-error': Boolean(error) }"
@@ -27,14 +27,14 @@
         <transition name="scale-fade">
           <span v-if="Boolean(error)" class="error">{{ error }}</span>
         </transition>
-        <awsom-button
+        <base-button
           :disabled="playerStage === 'connecting'"
           native-type="submit"
           class="join-button"
         >
           Join
-        </awsom-button>
-        <awsom-button
+        </base-button>
+        <base-button
           :disabled="playerStage === 'connecting'"
           native-type="button"
           type="info"
@@ -42,7 +42,7 @@
           @click.native="customGame"
         >
           Create private game
-        </awsom-button>
+        </base-button>
       </form>
     </div>
   </div>
@@ -52,16 +52,12 @@
 import { mapActions, mapState } from "vuex"
 import logoPath from "../assets/logo.png"
 import OrbitSpinner from "@/components/OrbitSpinner.vue"
-import AwsomInput from "@/components/AwsomInput.vue"
-import AwsomButton from "@/components/AwsomButton.vue"
 
 // This is use to prevent preloading when the image is already cached
 let alreadyLoadedImage = false
 
 export default {
   components: {
-    AwsomInput,
-    AwsomButton,
     OrbitSpinner
   },
   data: () => ({
