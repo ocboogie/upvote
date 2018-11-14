@@ -22,9 +22,7 @@ Player.register = async (socket, name, lobbyId, hosting = false) => {
     return
   }
 
-  // eslint-disable-next-line no-param-reassign
   socket.id = uuid()
-  // eslint-disable-next-line no-param-reassign
   socket.lobbyId = lobbyId
 
   const player = await Player.create({
@@ -78,7 +76,6 @@ Player.updateClientsVotes = async (disconnectedSocketId, lobbyId) =>
         }
       ]
     })).reduce((posts, post) => {
-      // eslint-disable-next-line no-param-reassign
       posts[post.id] = { upvotes: post.get("upvotes") || 0 }
       return posts
     }, {})

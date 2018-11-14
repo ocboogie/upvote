@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 export default {
   state: {
     activeModal: null,

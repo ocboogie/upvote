@@ -14,10 +14,9 @@ export const updateClients = player => {
         client.lobbyId === player.lobbyId &&
         client.id !== player.id
       ) {
-        /* eslint-disable no-param-reassign */
         delete client.id
         delete client.lobbyId
-        /* eslint-enable no-param-reassign */
+
         emit(client, "hostDisconnected")
       }
     })
