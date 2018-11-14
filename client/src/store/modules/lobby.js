@@ -74,22 +74,22 @@ export default {
       emit("post", content)
     },
 
-    newPostEvent(context, post) {
+    newPostWs(context, post) {
       context.commit("setPost", post)
     },
-    updatePostsEvent(context, data) {
+    updatePostsWs(context, data) {
       context.commit("updatePosts", data)
     },
-    updatePostEvent(context, data) {
+    updatePostWs(context, data) {
       context.commit("updatePost", data)
     },
-    removePostsEvent(context, postIds) {
+    removePostsWs(context, postIds) {
       context.commit("removePosts", postIds)
     },
-    newPlayerEvent(context, player) {
+    newPlayerWs(context, player) {
       context.commit("addPlayer", player)
     },
-    removePlayerEvent(context, player) {
+    removePlayerWs(context, player) {
       context.commit("removePlayer", player)
     }
   },

@@ -23,10 +23,10 @@ export default {
       context.commit("setJoinError", error)
     },
 
-    existingPlayerEvent(context) {
+    existingPlayerWs(context) {
       context.commit("setJoinError", "Existing player with that name.")
     },
-    alreadyInALobbyEvent(context) {
+    alreadyInALobbyWs(context) {
       context.commit("setJoinError", "You're already in a lobby.")
     }
   }

@@ -37,10 +37,10 @@ const store = new Vuex.Store({
       context.commit("setLobbyId", null)
     },
 
-    startedGameEvent(context) {
+    startedGameWs(context) {
       context.commit("setStage", "inGame")
     },
-    joinedGameEvent(context, payload) {
+    joinedGameWs(context, payload) {
       context.commit("setStage", "inGame")
       context.commit(
         "setPosts",
@@ -54,7 +54,7 @@ const store = new Vuex.Store({
         context.commit("setJoinError", null)
       }
     },
-    joinedLobbyEvent(context, payload) {
+    joinedLobbyWs(context, payload) {
       context.commit("setStage", "inLobby")
       context.commit("setLobbyId", payload.lobbyId)
       context.commit("setPlayers", payload.players)
@@ -62,7 +62,7 @@ const store = new Vuex.Store({
         context.commit("setJoinError", null)
       }
     },
-    createdLobbyEvent(context, lobbyId) {
+    createdLobbyWs(context, lobbyId) {
       context.commit("setStage", "inLobby")
       context.commit("setLobbyId", lobbyId)
       context.commit("setIsHost", true)
@@ -70,13 +70,13 @@ const store = new Vuex.Store({
         context.commit("setJoinError", null)
       }
     },
-    leftLobbyEvent(context) {
+    leftLobbyWs(context) {
       context.dispatch("reset")
     },
-    lobbyNotFoundEvent(context) {
+    lobbyNotFoundWs(context) {
       context.commit("setJoinError", "Could not find lobby.")
     },
-    hostDisconnectedEvent(context) {
+    hostDisconnectedWs(context) {
       context.dispatch("reset")
       Vue.notify({
         title: "Host Disconnected",
@@ -93,7 +93,7 @@ ws.onopen = () => {
 
 ws.onmessage = ({ data: wsData }) => {
   const data = JSON.parse(wsData)
-  store.dispatch(`${data.type}Event`, data.payload)
+  store.dispatch(`${data.type}Ws`, data.payload)
 }
 
 export default store
