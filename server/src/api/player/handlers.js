@@ -6,9 +6,7 @@ import Post from "../post/model"
 import { emit } from "../../wss"
 
 export default {
-  async joinLobby({ name, lobbyId: targetLobbyId }) {
-    const lobbyId = targetLobbyId || global.mainLobbyId
-
+  async joinLobby({ name, lobbyId = global.mainLobbyId }) {
     const lobby = await Lobby.findByPk(lobbyId)
 
     if (!lobby) {

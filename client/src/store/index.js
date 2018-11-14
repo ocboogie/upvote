@@ -21,7 +21,10 @@ const store = new Vuex.Store({
     },
     joinLobby(context, name) {
       context.commit("setName", name)
-      emit("joinLobby", { name, lobbyId: window.location.search.slice(1) })
+      emit("joinLobby", {
+        name, // If empty string use undefined
+        lobbyId: window.location.search.slice(1) || undefined
+      })
     },
     startGame() {
       emit("startGame")
