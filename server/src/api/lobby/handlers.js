@@ -1,4 +1,4 @@
-import nanoId from "nanoid"
+import nanoid from "nanoid"
 import uuid from "uuid/v4"
 import { broadcast, emit } from "../../wss"
 import Player from "../player/model"
@@ -10,7 +10,7 @@ export default {
     broadcast("startedGame", this.lobbyId)
   },
   async createLobby(name) {
-    const lobbyId = nanoId(global.lobbyIdLength)
+    const lobbyId = nanoid(global.lobbyIdLength)
     const playerId = uuid()
 
     const [lobby] = await Promise.all([
