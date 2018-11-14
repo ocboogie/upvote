@@ -26,7 +26,7 @@ export const updateClients = player => {
   Player.sendRemovedPlayerToClients(player.name, player.lobbyId, player.id)
   // eslint-disable-next-line consistent-return
   return Promise.all([
-    Player.sendRemovePostsToClients(player.id, player.lobbyId),
+    Player.sendRemovedPostsToClients(player.id, player.lobbyId),
     Player.updateClientsVotes(player.id, player.lobbyId)
   ])
 }

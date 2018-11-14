@@ -41,7 +41,7 @@ Player.register = async (
   return player
 }
 
-Player.sendRemovePostsToClients = async (disconnectedSocketId, lobbyId) => {
+Player.sendRemovedPostsToClients = async (disconnectedSocketId, lobbyId) => {
   const posts = await Post.findAll({
     where: { playerId: disconnectedSocketId }
   })
