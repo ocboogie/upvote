@@ -3,8 +3,11 @@ import Player from "./model"
 import Lobby from "../lobby/model"
 import wss, { emit } from "../../wss"
 
-// eslint-disable-next-line import/prefer-default-export
-export const updateClients = player => {
+Player.addHook("afterCreate", "updateClients", ({ name, lobbyId, id }) =>
+  Player.sendNewPlayerToClients(name, lobbyId, id)
+)
+
+Player.addHook("beforeDestroy", "updateClients", player => {
   if (player.hosting) {
     Lobby.destroy({ where: { id: player.lobbyId } })
     wss.clients.forEach(client => {
@@ -29,9 +32,4 @@ export const updateClients = player => {
     Player.sendRemovedPostsToClients(player.id, player.lobbyId),
     Player.updateClientsVotes(player.id, player.lobbyId)
   ])
-}
-
-Player.addHook("beforeDestroy", "updateClients", updateClients)
-Player.addHook("afterCreate", "updateClients", ({ name, lobbyId, id }) =>
-  Player.sendNewPlayerToClients(name, lobbyId, id)
-)
+})
