@@ -1,3 +1,4 @@
+import "./lobby/hooks"
 import "./player/methods"
 import "./player/hooks"
 import "./vote/hooks"
