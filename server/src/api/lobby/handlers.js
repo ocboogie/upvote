@@ -1,4 +1,5 @@
 import nanoId from "nanoid"
+import uuid from "uuid/v4"
 import { broadcast, emit } from "../../wss"
 import Player from "../player/model"
 import Lobby from "./model"
@@ -10,13 +11,12 @@ export default {
   },
   async createLobby(name) {
     const lobbyId = nanoId(global.lobbyIdLength)
+    const playerId = uuid()
 
-    const [lobby, hostPlayer] = await Promise.all([
-      Lobby.create({ inGame: false, id: lobbyId }),
-      Player.register(this, name, lobbyId, true)
+    const [lobby] = await Promise.all([
+      Lobby.create({ inGame: false, id: lobbyId, hostId: playerId }),
+      Player.register(this, name, lobbyId, { hosting: true, playerId })
     ])
-
-    await lobby.setHost(hostPlayer)
 
     emit(this, "createdLobby", lobby.id)
   }

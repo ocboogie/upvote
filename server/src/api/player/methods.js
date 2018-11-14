@@ -5,7 +5,12 @@ import Post from "../post/model"
 import { broadcast, emit } from "../../wss"
 import Vote from "../vote/model"
 
-Player.register = async (socket, name, lobbyId, hosting = false) => {
+Player.register = async (
+  socket,
+  name,
+  lobbyId,
+  { hosting = false, playerId = uuid() } = {}
+) => {
   if (socket.id) {
     emit(socket, "alreadyInALobby")
     return
@@ -22,11 +27,11 @@ Player.register = async (socket, name, lobbyId, hosting = false) => {
     return
   }
 
-  socket.id = uuid()
+  socket.id = playerId
   socket.lobbyId = lobbyId
 
   const player = await Player.create({
-    id: socket.id,
+    id: playerId,
     lobbyId,
     name,
     hosting
