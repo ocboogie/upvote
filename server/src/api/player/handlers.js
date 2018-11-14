@@ -66,10 +66,8 @@ export default {
       return
     }
 
-    await Player.destroy({ where: { id: this.id }, individualHooks: true })
+    await Player.deregister(this)
 
-    delete this.id
-    delete this.lobbyId
     emit(this, "leftLobby")
   }
 }

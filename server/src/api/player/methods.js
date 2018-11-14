@@ -41,6 +41,18 @@ Player.register = async (
   return player
 }
 
+// eslint-disable-next-line consistent-return
+Player.deregister = async (socket, destroy = true) => {
+  const { id } = socket
+
+  delete socket.id
+  delete socket.lobbyId
+
+  if (destroy) {
+    return Player.destroy({ where: { id }, individualHooks: true })
+  }
+}
+
 Player.sendRemovedPostsToClients = async (disconnectedSocketId, lobbyId) => {
   const posts = await Post.findAll({
     where: { playerId: disconnectedSocketId }

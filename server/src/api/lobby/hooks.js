@@ -1,5 +1,6 @@
 import WebSocket from "ws"
 import wss, { emit } from "../../wss"
+import Player from "../player/model"
 import Lobby from "./model"
 
 Lobby.addHook("beforeDestroy", "updateClients", lobby => {
@@ -10,8 +11,7 @@ Lobby.addHook("beforeDestroy", "updateClients", lobby => {
       client.lobbyId === lobby.id &&
       client.id !== lobby.host
     ) {
-      delete client.id
-      delete client.lobbyId
+      Player.deregister(client, false)
 
       emit(client, "hostDisconnected")
     }
