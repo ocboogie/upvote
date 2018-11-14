@@ -73,9 +73,6 @@ const store = new Vuex.Store({
     leftLobbyWs(context) {
       context.dispatch("reset")
     },
-    lobbyNotFoundWs(context) {
-      context.commit("setJoinError", "Could not find lobby.")
-    },
     hostDisconnectedWs(context) {
       context.dispatch("reset")
       Vue.notify({

@@ -28,6 +28,9 @@ export default {
     },
     alreadyInALobbyWs(context) {
       context.commit("setJoinError", "You're already in a lobby.")
+    },
+    lobbyNotFoundWs(context) {
+      context.commit("setJoinError", "Could not find lobby.")
     }
   }
 }
