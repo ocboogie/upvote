@@ -21,6 +21,12 @@ sequelize
 wss.on("connection", ws => {
   ws.on("message", handlers)
 
+  ws.isAlive = true
+
+  // eslint-disable-next-line func-names
+  ws.on("pong", function() {
+    this.isAlive = true
+  })
   // eslint-disable-next-line func-names
   ws.on("close", function() {
     if (!this.id) {
@@ -29,6 +35,20 @@ wss.on("connection", ws => {
     Player.destroy({ where: { id: this.id }, individualHooks: true })
   })
 })
+
+function noop() {}
+
+setInterval(() => {
+  wss.clients.forEach(ws => {
+    if (ws.isAlive === false) {
+      ws.terminate()
+      return
+    }
+
+    ws.isAlive = false
+    ws.ping(noop)
+  })
+}, 30000)
 
 const port = process.env.PORT
 
