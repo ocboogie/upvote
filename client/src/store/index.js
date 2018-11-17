@@ -36,6 +36,15 @@ const store = new Vuex.Store({
       context.commit("setIsHost", false)
       context.commit("setLobbyId", null)
     },
+    connectionClosed(context) {
+      // TODO: Open a modal that reloads when clicking okay
+      context.dispatch("reset")
+      Vue.notify({
+        title: "Connection closed",
+        type: "error",
+        duration: 4000
+      })
+    },
 
     startedGameWs(context) {
       context.commit("setStage", "inGame")
@@ -86,6 +95,10 @@ const store = new Vuex.Store({
 
 ws.onopen = () => {
   store.dispatch("connected")
+}
+
+ws.onclose = () => {
+  store.dispatch("connectionClosed")
 }
 
 ws.onmessage = ({ data: wsData }) => {
