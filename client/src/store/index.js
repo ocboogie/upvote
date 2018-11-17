@@ -46,7 +46,7 @@ const store = new Vuex.Store({
       })
     },
 
-    startedGameWs(context) {
+    gameStartedWs(context) {
       context.commit("setStage", "inGame")
     },
     joinedGameWs(context, payload) {

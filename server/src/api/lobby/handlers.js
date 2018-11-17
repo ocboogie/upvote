@@ -7,7 +7,7 @@ import Lobby from "./model"
 export default {
   async startGame() {
     await Lobby.update({ inGame: true }, { where: { id: this.lobbyId } })
-    broadcast("startedGame", this.lobbyId)
+    broadcast("gameStarted", this.lobbyId)
   },
   async createLobby(name) {
     const lobbyId = nanoid(global.lobbyIdLength)
