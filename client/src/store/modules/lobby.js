@@ -6,7 +6,7 @@ export default {
     posts: {},
     players: [],
     lobbyId: null,
-    isHost: false
+    hosting: false
   },
   mutations: {
     setPost(state, post) {
@@ -58,8 +58,8 @@ export default {
     setLobbyId(state, lobbyId) {
       state.lobbyId = lobbyId
     },
-    setIsHost(state, isHost) {
-      state.isHost = isHost
+    setHosting(state, hosting) {
+      state.hosting = hosting
     }
   },
   actions: {

@@ -33,7 +33,7 @@ const store = new Vuex.Store({
       context.commit("setStage", "connected")
       context.commit("clearPosts")
       context.commit("clearPlayers")
-      context.commit("setIsHost", false)
+      context.commit("setHosting", false)
       context.commit("setLobbyId", null)
     },
     connectionClosed(context) {
@@ -50,6 +50,7 @@ const store = new Vuex.Store({
       context.commit("setStage", "inGame")
     },
     joinedGameWs(context, payload) {
+      console.log(payload)
       context.commit("setStage", "inGame")
       context.commit(
         "setPosts",
@@ -74,7 +75,7 @@ const store = new Vuex.Store({
     createdLobbyWs(context, lobbyId) {
       context.commit("setStage", "inLobby")
       context.commit("setLobbyId", lobbyId)
-      context.commit("setIsHost", true)
+      context.commit("setHosting", true)
       if (context.state.player.error) {
         context.commit("setJoinError", null)
       }

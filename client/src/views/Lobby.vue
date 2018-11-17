@@ -5,7 +5,7 @@
       <base-card class="lobby">
         <h1 class="header">Lobby</h1>
         <base-button
-          :disabled="!isHost && playerStage === 'inLobby'"
+          :disabled="!hosting && playerStage === 'inLobby'"
           class="start-button"
           @click.native="startButtonAction"
         >
@@ -35,7 +35,7 @@ export default {
     ...mapState({
       playerStage: state => state.player.stage,
       lobbyId: state => state.lobby.lobbyId,
-      isHost: state => state.lobby.isHost
+      hosting: state => state.lobby.hosting
     }),
     startButtonAction() {
       return this.playerStage === "inGame" ? this.backToGame : this.startGame
