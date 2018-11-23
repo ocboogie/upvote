@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "lib": ["es2015"],
+    "target": "es2015",
+    "module": "commonjs",
+    "sourceMap": true,
+
+    "strict": true,
+    "strictPropertyInitialization": false,
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+    "outDir": "dist",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["custom_typings/*"]
+    }
+  },
+
+  "include": ["src/**/*"]
+}

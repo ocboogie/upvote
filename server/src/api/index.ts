@@ -1,26 +1,25 @@
-import "./lobby/hooks"
-import "./player/methods"
-import "./player/hooks"
-import "./vote/hooks"
+import WebSocket from "ws"
 import lobbyHandlers from "./lobby/handlers"
 import playerHandlers from "./player/handlers"
 import postHandlers from "./post/handlers"
 import voteHandlers from "./vote/handlers"
 
-const handlers = {
+export const handlers = {
   ...lobbyHandlers,
   ...playerHandlers,
   ...postHandlers,
   ...voteHandlers
 }
 
-export default function(dataString) {
-  const { data, type } = JSON.parse(dataString)
-  const wsEvent = handlers[type]
+export default function(this: WebSocket, payloadString: string) {
+  const { data, type }: { type: keyof typeof handlers; data: any } = JSON.parse(
+    payloadString
+  )
+  const handler = handlers[type]
 
-  if (!wsEvent) {
+  if (!handler) {
     // eslint-disable-next-line no-throw-literal
     throw `No event named: ${type}`
   }
-  wsEvent.bind(this)(data)
+  handler.bind(this)(data)
 }

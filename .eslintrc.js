@@ -6,7 +6,8 @@ module.exports = {
   },
   rules: {
     "prettier/prettier": "error",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "consistent-return": "off"
   },
   plugins: ["prettier"],
   root: true
