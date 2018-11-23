@@ -82,7 +82,6 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    max-height: 65px;
     padding: 10px;
     .arrow {
       padding: 0;

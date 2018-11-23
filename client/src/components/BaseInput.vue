@@ -17,10 +17,8 @@ export default {
   border: 1px solid $border-base-color;
   outline: none;
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-  height: 40px;
-  line-height: 40px;
-  padding: 0 15px;
-  font-size: 14px;
+  height: auto;
+  padding: 12px 15px;
   &::placeholder {
     color: $text-placeholder-color;
   }

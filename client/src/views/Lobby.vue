@@ -81,7 +81,7 @@ export default {
       margin: auto;
       display: block;
       margin-top: 0.5rem;
-      width: 90%;
+      width: 100%;
       text-align: center;
     }
   }
