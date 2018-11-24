@@ -1,5 +1,11 @@
 <template>
-  <textarea v-if="multiline" rows="3" class="base-input is-multiline" />
+  <textarea
+    v-if="multiline"
+    :value="value"
+    rows="3"
+    class="base-input is-multiline"
+    @input="$emit('input', $event.target.value)"
+  />
   <input
     v-else
     :value="value"
