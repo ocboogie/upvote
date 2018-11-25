@@ -28,9 +28,10 @@ export default {
   border: 1px solid $border-base-color;
   outline: none;
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-  height: auto;
+  height: 40px;
   padding: 12px 15px;
   &.is-multiline {
+    height: auto;
     display: block;
     resize: vertical;
     padding: 8px 12px;
