@@ -16,7 +16,7 @@
 <script>
 export default {
   props: {
-    value: { type: String, default: "" },
+    value: { type: [String, Number], default: "" },
     multiline: { type: Boolean, default: false }
   }
 }
