@@ -163,7 +163,7 @@ export default {
   max-width: 360px;
   margin: auto;
   margin-bottom: 0.5rem;
-  padding: 5px 0;
+  padding: 25px 0;
 
   text-align: center;
   display: block;
