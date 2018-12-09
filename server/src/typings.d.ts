@@ -9,10 +9,15 @@ declare global {
   }
 
   type ClientEvents = {
-    gameStarted: undefined
+    gameStarted: {
+      prompt: string
+      roundEndAt: Date
+    }
     joinedGame: {
       posts: PostForClient[]
       players: string[]
+      prompt: string
+      roundEndAt: Date
     }
     joinedLobby: {
       players: string[]
@@ -33,6 +38,8 @@ declare global {
     existingPlayer: undefined
     alreadyInALobby: undefined
     lobbyNotFound: undefined
+    roundEnded: string[]
+    waitingForGameToFinish: string[]
   }
 
   type ClientEventNames = keyof ClientEvents

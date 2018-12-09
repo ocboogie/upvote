@@ -26,8 +26,8 @@ const store = new Vuex.Store({
         lobbyId: window.location.search.slice(1) || undefined
       })
     },
-    startGame() {
-      emit("startGame")
+    startGame(context, payload) {
+      emit("startGame", payload)
     },
     reset(context) {
       context.commit("setStage", "connected")
@@ -35,6 +35,7 @@ const store = new Vuex.Store({
       context.commit("clearPlayers")
       context.commit("setHosting", false)
       context.commit("setLobbyId", null)
+      context.commit("setWinners", null)
     },
     connectionClosed(context) {
       // TODO: Open a modal that reloads when clicking okay
@@ -46,11 +47,16 @@ const store = new Vuex.Store({
       })
     },
 
-    gameStartedWs(context) {
+    gameStartedWs(context, payload) {
+      context.commit("setPrompt", payload.prompt)
+      context.commit("setRoundEndAt", new Date(payload.roundEndAt))
       context.commit("setStage", "inGame")
+      context.commit("clearPosts")
+      context.commit("setWinners", null)
     },
     joinedGameWs(context, payload) {
-      console.log(payload)
+      context.commit("setPrompt", payload.prompt)
+      context.commit("setRoundEndAt", new Date(payload.roundEndAt))
       context.commit("setStage", "inGame")
       context.commit(
         "setPosts",
@@ -90,6 +96,13 @@ const store = new Vuex.Store({
         type: "error",
         duration: 4000
       })
+    },
+    roundEndedWs(context, winners) {
+      context.commit("setWinners", winners)
+    },
+    waitingForGameToFinishWs(context, players) {
+      context.commit("setStage", "waitingForGameToFinish")
+      context.commit("setPlayers", players)
     }
   }
 })

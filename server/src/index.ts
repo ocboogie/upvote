@@ -1,17 +1,18 @@
 import "reflect-metadata"
-import nanoId from "nanoid"
 import { createConnection } from "typeorm"
 import Lobby from "./api/lobby/model"
 import Player from "./api/player/model"
 import Post from "./api/post/model"
+import Prompt from "./api/prompt/model"
 import Vote from "./api/vote/model"
 import handler from "./api"
 import wss from "./wss"
+import setUpMainLobby from "./setUpMainLobby"
 
 createConnection({
   type: "sqlite",
   database: ":memory:",
-  entities: [Lobby, Player, Post, Vote],
+  entities: [Lobby, Player, Post, Prompt, Vote],
   synchronize: true,
   logging: true
 })
@@ -19,15 +20,10 @@ createConnection({
     Lobby.init(connection)
     Player.init(connection)
     Post.init(connection)
+    Prompt.init(connection)
     Vote.init(connection)
 
-    const mainLobby = Lobby.r.create({
-      id: nanoId(),
-      prompt: "What's up, doc?",
-      inGame: true
-    })
-
-    return connection.manager.save(mainLobby)
+    return setUpMainLobby()
   })
   .then(mainLobby => {
     global.mainLobbyId = mainLobby.id

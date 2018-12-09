@@ -30,6 +30,14 @@ const router = new Router({
         import(/* webpackChunkName: "game" */ "./views/Game.vue"),
       meta: { requiresAuth: "on", depth: 2 }
     },
+    {
+      path: "/loading/:screen",
+      name: "loading",
+      component: () =>
+        import(/* webpackChunkName: "loading" */ "./views/Loading.vue"),
+      meta: { requiresAuth: "on", depth: 1 }
+    },
+
     { path: "*", redirect: "/" }
   ]
 })
@@ -53,8 +61,8 @@ router.beforeEach((to, from, next) => {
 router.afterEach(to => {
   if (
     to.path === "/" &&
-    (store.state.player.stage === "inGame" ||
-      store.state.player.stage === "inLobby")
+    store.state.player.stage !== "connecting" &&
+    store.state.player.stage !== "connected"
   ) {
     emit("leaveLobby")
   }
@@ -62,6 +70,7 @@ router.afterEach(to => {
 
 const stageRouteMap = {
   inGame: "/game",
+  waitingForGameToFinish: "/loading/waitingForGameToFinish",
   inLobby: "/lobby",
   connected: "/"
 }

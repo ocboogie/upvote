@@ -6,6 +6,9 @@ export default {
     posts: {},
     players: [],
     lobbyId: null,
+    prompt: null,
+    roundEndAt: null,
+    winners: null,
     hosting: false
   },
   mutations: {
@@ -57,6 +60,15 @@ export default {
 
     setLobbyId(state, lobbyId) {
       state.lobbyId = lobbyId
+    },
+    setPrompt(state, prompt) {
+      state.prompt = prompt
+    },
+    setRoundEndAt(state, roundEndAt) {
+      state.roundEndAt = roundEndAt
+    },
+    setWinners(state, winners) {
+      state.winners = winners
     },
     setHosting(state, hosting) {
       state.hosting = hosting

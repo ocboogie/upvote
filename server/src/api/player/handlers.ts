@@ -15,7 +15,10 @@ export default {
       lobbyId?: string
     }
   ) {
-    const lobby = await Lobby.r.findOne(lobbyId)
+    const lobby = await Lobby.r.findOne({
+      where: { id: lobbyId },
+      relations: ["activePrompt"]
+    })
 
     if (!lobby) {
       emit(this, "lobbyNotFound")
@@ -29,13 +32,20 @@ export default {
       return
     }
 
-    if (!lobby.inGame) {
-      emit(this, "joinedLobby", {
-        players: (await Player.r.find({
-          lobbyId
-        })).map(otherPlayer => otherPlayer.name),
+    if (lobby.stage === "break" || lobby.stage === "lobby") {
+      const players = (await Player.r.find({
         lobbyId
-      })
+      })).map(otherPlayer => otherPlayer.name)
+
+      if (lobby.stage === "lobby") {
+        emit(this, "joinedLobby", {
+          players,
+          lobbyId
+        })
+      } else {
+        emit(this, "waitingForGameToFinish", players)
+      }
+
       return
     }
 
@@ -58,9 +68,15 @@ export default {
         .getRawMany()
     ])
 
+    if (lobby.stage === "waitingForPlayers") {
+      await lobby.setupRound()
+    }
+
     emit(this, "joinedGame", {
       posts,
-      players: players.map(otherPlayer => otherPlayer.name)
+      players: players.map(otherPlayer => otherPlayer.name),
+      prompt: lobby.activePrompt.text,
+      roundEndAt: lobby.roundEndAt
     })
   },
 
