@@ -1,7 +1,7 @@
 import {
   Entity,
   Column,
-  JoinTable,
+  JoinColumn,
   Repository,
   Connection,
   PrimaryGeneratedColumn,
@@ -27,6 +27,6 @@ export default class Prompt {
   lobbyId: string
 
   @ManyToOne(type => Lobby, lobby => lobby.prompts, { onDelete: "CASCADE" })
-  @JoinTable({ name: "lobbyId" })
+  @JoinColumn({ name: "lobbyId" })
   lobby: Lobby
 }

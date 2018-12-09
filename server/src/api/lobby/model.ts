@@ -4,7 +4,6 @@ import {
   PrimaryColumn,
   OneToMany,
   OneToOne,
-  JoinTable,
   Repository,
   Connection,
   JoinColumn
@@ -75,7 +74,7 @@ export default class Lobby {
   hostId: number
 
   @OneToOne(type => Player, { onDelete: "CASCADE" })
-  @JoinTable({ name: "hostId" })
+  @JoinColumn({ name: "hostId" })
   host: Player
 
   @Column({ nullable: true })
