@@ -8,6 +8,7 @@ import {
   Connection,
   JoinColumn
 } from "typeorm"
+import schedule from "node-schedule"
 import { broadcast } from "../../wss"
 import Player from "../player/model"
 import Post from "../post/model"
@@ -179,9 +180,9 @@ export default class Lobby {
   }
 
   scheduleRoundEndHandler() {
-    setTimeout(() => {
+    schedule.scheduleJob(this.roundEndAt, () => {
       this.roundEnd()
-    }, this.roundEndAt.getTime() - Date.now())
+    })
   }
 
   scheduleNextRoundHandler() {
