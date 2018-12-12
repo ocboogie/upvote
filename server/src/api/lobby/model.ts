@@ -62,7 +62,7 @@ export default class Lobby {
   })
   roundEndAt: Date
 
-  @Column({ default: 5 })
+  @Column({ default: 60 })
   roundTime: number
 
   @OneToMany(type => Player, player => player.lobby)
