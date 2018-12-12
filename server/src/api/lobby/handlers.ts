@@ -31,14 +31,15 @@ export default {
     })
 
     lobby.updateRoundEndAt()
-    lobby.scheduleRoundEndHandler()
-
-    Lobby.r.save(lobby)
 
     broadcast("gameStarted", this.lobbyId, {
       prompt: activePrompt.text,
       roundEndAt: lobby.roundEndAt
     })
+
+    lobby.scheduleRoundEndHandler()
+
+    await Lobby.r.save(lobby)
   },
   async createLobby(this: WebSocket, name: string) {
     const lobbyId = nanoid()
