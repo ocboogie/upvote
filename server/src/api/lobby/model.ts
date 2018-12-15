@@ -8,7 +8,6 @@ import {
   Connection,
   JoinColumn
 } from "typeorm"
-import schedule from "node-schedule"
 import { broadcast } from "../../wss"
 import Player from "../player/model"
 import Post from "../post/model"
@@ -121,14 +120,20 @@ export default class Lobby {
   async roundEnd() {
     let winners = await this.getWinner()
 
-    if (winners) {
-      await Post.r.delete({ lobbyId: this.id })
-    } else {
+    let hasPosts = true
+
+    if (!winners) {
+      hasPosts = false
       winners = {}
     }
 
-    Lobby.r.update(this.id, { stage: "break" })
     broadcast("roundEnded", this.id, Object.values(winners))
+
+    await Lobby.r.update(this.id, { stage: "break" })
+    if (hasPosts) {
+      await Post.r.delete({ lobbyId: this.id })
+    }
+
     this.scheduleNextRoundHandler()
   }
 
@@ -164,25 +169,25 @@ export default class Lobby {
     this.stage = "game"
     this.updateRoundEndAt()
 
+    broadcast("gameStarted", this.id, {
+      prompt: this.activePrompt.text,
+      roundEndAt: this.roundEndAt
+    })
+
+    this.scheduleRoundEndHandler()
+
     // Using update instead of save to prevent an unnecessary query
     await Lobby.r.update(this.id, {
       activePrompt: this.activePrompt,
       stage: this.stage,
       roundEndAt: this.roundEndAt
     })
-
-    this.scheduleRoundEndHandler()
-
-    broadcast("gameStarted", this.id, {
-      prompt: this.activePrompt.text,
-      roundEndAt: this.roundEndAt
-    })
   }
 
   scheduleRoundEndHandler() {
-    schedule.scheduleJob(this.roundEndAt, () => {
+    setTimeout(() => {
       this.roundEnd()
-    })
+    }, this.roundEndAt.getTime() - Date.now())
   }
 
   scheduleNextRoundHandler() {
