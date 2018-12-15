@@ -85,8 +85,6 @@ export default class Lobby {
   activePrompt: Prompt
 
   async getWinner() {
-    const then = Date.now()
-
     const posts = await Post.r
       .createQueryBuilder("post")
       .leftJoin("post.author", "author")
@@ -97,8 +95,6 @@ export default class Lobby {
       .addSelect("COALESCE(SUM(`votes`.`vote`), 0)", "upvotes")
       .groupBy("post.id")
       .getRawMany()
-
-    console.log(Date.now() - then)
 
     // TODO: Move the winner logic to sql
     if (!posts.length) {
