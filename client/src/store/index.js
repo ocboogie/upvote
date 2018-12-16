@@ -49,14 +49,20 @@ const store = new Vuex.Store({
 
     gameStartedWs(context, payload) {
       context.commit("setPrompt", payload.prompt)
-      context.commit("setRoundEndAt", new Date(payload.roundEndAt))
+      context.commit(
+        "setRoundEndAt",
+        new Date(Date.now() + payload.timeTillRoundEnd)
+      )
       context.commit("setStage", "inGame")
       context.commit("clearPosts")
       context.commit("setWinners", null)
     },
     joinedGameWs(context, payload) {
       context.commit("setPrompt", payload.prompt)
-      context.commit("setRoundEndAt", new Date(payload.roundEndAt))
+      context.commit(
+        "setRoundEndAt",
+        new Date(Date.now() + payload.timeTillRoundEnd)
+      )
       context.commit("setStage", "inGame")
       context.commit(
         "setPosts",
