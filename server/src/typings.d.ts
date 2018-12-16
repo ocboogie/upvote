@@ -17,7 +17,7 @@ declare global {
       posts: PostForClient[]
       players: string[]
       prompt: string
-      roundEndAt: Date
+      roundEndAt: number
     }
     joinedLobby: {
       players: string[]
