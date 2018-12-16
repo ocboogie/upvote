@@ -34,7 +34,7 @@ export default {
 
     broadcast("gameStarted", this.lobbyId, {
       prompt: activePrompt.text,
-      roundEndAt: lobby.roundEndAt
+      roundEndAt: lobby.roundEndAt.getTime()
     })
 
     lobby.scheduleRoundEndHandler()
