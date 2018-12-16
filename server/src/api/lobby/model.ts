@@ -171,7 +171,7 @@ export default class Lobby {
 
     broadcast("gameStarted", this.id, {
       prompt: this.activePrompt.text,
-      roundEndAt: this.roundEndAt
+      roundEndAt: this.roundEndAt.getTime()
     })
 
     this.scheduleRoundEndHandler()

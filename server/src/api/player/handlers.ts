@@ -76,7 +76,7 @@ export default {
       posts,
       players: players.map(otherPlayer => otherPlayer.name),
       prompt: lobby.activePrompt.text,
-      roundEndAt: lobby.roundEndAt
+      roundEndAt: lobby.roundEndAt.getTime()
     })
   },
 

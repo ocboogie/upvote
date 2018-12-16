@@ -11,7 +11,7 @@ declare global {
   type ClientEvents = {
     gameStarted: {
       prompt: string
-      roundEndAt: Date
+      roundEndAt: number
     }
     joinedGame: {
       posts: PostForClient[]
