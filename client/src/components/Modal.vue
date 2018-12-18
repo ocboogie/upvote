@@ -6,7 +6,12 @@
     <div class="background-dim" @click="close" />
     <base-card class="modal">
       <slot />
-      <base-button v-if="type === 'acknowledgement'" class="okay-button">
+      <base-button
+        v-if="type === 'acknowledgement'"
+        class="okay-button"
+        @keyup.enter="close"
+        @click.native="close"
+      >
         Okay
       </base-button>
       <div
@@ -39,11 +44,16 @@ export default {
 </script>
 <style lang="scss" scoped>
 .modal-container {
-  z-index: 999;
   &.under-page-transition {
-    z-index: 9;
+    .background-dim {
+      z-index: 8;
+    }
+    .modal {
+      z-index: 9;
+    }
   }
   .background-dim {
+    z-index: 998;
     position: fixed;
     background: rgba(0, 0, 0, 0.164);
     bottom: 0;
@@ -52,6 +62,7 @@ export default {
     left: 0;
   }
   .modal {
+    z-index: 999;
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
@@ -61,13 +72,9 @@ export default {
     min-height: 100px;
     text-align: center;
     font-size: 1.2rem;
+    padding: 1rem 1.5rem;
     .okay-button {
-      position: absolute;
-      display: inline-block;
-      right: 0;
-      bottom: 0;
-      margin-right: 0.25rem;
-      margin-bottom: 0.25rem;
+      margin-top: 1rem;
     }
     .exit {
       font-size: 1rem;

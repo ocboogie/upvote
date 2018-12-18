@@ -9,13 +9,17 @@
         <router-view />
       </transition>
     </div>
-    <notifications classes="notification" />
+    <modal-manager />
   </div>
 </template>
 <script>
 import { mapState } from "vuex"
+import ModalManager from "./components/ModalManager.vue"
 
 export default {
+  components: {
+    ModalManager
+  },
   data: () => ({ transition: "" }),
   computed: mapState({
     playerStage: state => state.player.stage

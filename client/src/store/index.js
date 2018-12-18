@@ -2,7 +2,7 @@ import Vue from "vue"
 import Vuex from "vuex"
 import ws, { emit } from "../socket"
 import lobby from "./modules/lobby"
-// import modal from "./modules/modal"
+import modal from "./modules/modal"
 import player from "./modules/player"
 
 Vue.use(Vuex)
@@ -10,7 +10,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {
     lobby,
-    // modal,
+    modal,
     player
   },
   actions: {
@@ -38,13 +38,8 @@ const store = new Vuex.Store({
       context.commit("setWinners", null)
     },
     connectionClosed(context) {
-      // TODO: Open a modal that reloads when clicking okay
       context.dispatch("reset")
-      Vue.notify({
-        title: "Connection closed",
-        type: "error",
-        duration: 4000
-      })
+      context.dispatch("openModal", "disconnected")
     },
 
     gameStartedWs(context, payload) {
@@ -97,11 +92,7 @@ const store = new Vuex.Store({
     },
     hostDisconnectedWs(context) {
       context.dispatch("reset")
-      Vue.notify({
-        title: "Host Disconnected",
-        type: "error",
-        duration: 4000
-      })
+      context.dispatch("openModal", "hostDisconnected")
     },
     roundEndedWs(context, winners) {
       context.commit("setWinners", winners)
