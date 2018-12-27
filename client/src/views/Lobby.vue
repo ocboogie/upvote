@@ -31,11 +31,11 @@
           Waiting for host to start
         </div>
         <base-button
-          :disabled="!hosting && playerStage === 'inLobby'"
+          :disabled="!hosting"
           class="start-button"
-          @click.native="startButtonAction"
+          @click.native="start"
         >
-          {{ playerStage === "inGame" ? "Back to game" : "Start" }}
+          Start
         </base-button>
         <label for="invite-url">Invite URL</label>
         <base-input
@@ -73,16 +73,16 @@ export default {
   },
   methods: {
     ...mapActions(["startGame"]),
-    backToGame() {
-      this.$router.push("game")
-    },
-    startButtonAction() {
-      if (this.playerStage === "inGame") {
-        this.backToGame()
-        return
-      }
+    start() {
       this.startGame({ prompts: this.prompts, roundTime: this.roundTime })
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    if (from.path !== "/game") {
+      next()
+      return
+    }
+    next("/")
   }
 }
 </script>
