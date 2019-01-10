@@ -91,7 +91,7 @@ const store = new Vuex.Store({
       context.dispatch("reset")
     },
     hostDisconnectedWs(context) {
-      context.dispatch("reset")
+      emit("leaveLobby")
       context.dispatch("openModal", "hostDisconnected")
     },
     roundEndedWs(context, winners) {
