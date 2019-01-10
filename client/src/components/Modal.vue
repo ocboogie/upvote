@@ -50,7 +50,7 @@ export default {
 .fade-enter-active,
 .fade-leave-active {
   .modal {
-    transition: transform 0.15s cubic-bezier(0, 0, 0.3, 1), opacity 0.05s linear;
+    transition: transform 0.15s cubic-bezier(0, 0, 0.2, 1), opacity 0.05s linear;
   }
   .background-dim {
     transition: opacity 0.1s linear;
