@@ -99,6 +99,7 @@ export default {
     right: 0;
 
     .modal-content {
+      position: relative;
       max-width: 500px;
       min-width: 300px;
       min-height: 100px;
