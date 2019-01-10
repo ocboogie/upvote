@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade" :duration="5350">
+  <transition name="fade" :duration="150">
     <div
       class="modal-container"
       :class="{ 'under-page-transition': underPageTransition }"
