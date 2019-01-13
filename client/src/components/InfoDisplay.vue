@@ -15,7 +15,11 @@ export default {
       roundEndAt: state => state.lobby.roundEndAt
     }),
     secondsLeft() {
-      return Math.max((this.roundEndAt.getTime() - this.now) / 1000, 0)
+      const seconds = Math.max(
+        Math.ceil((this.roundEndAt.getTime() - this.now) / 1000),
+        0
+      )
+      return `${seconds}s`
     }
   },
   mounted() {
