@@ -23,14 +23,14 @@ export default {
     }
   },
   mounted() {
-    this.updateTimerDisplay()
+    this.interval = setInterval(this.updateTimerDisplay.bind(this), 1000)
+  },
+  beforeDestroy() {
+    clearInterval(this.interval)
   },
   methods: {
     updateTimerDisplay() {
-      // TODO: Make this not run 60 frames a second
       this.now = Date.now()
-
-      window.requestAnimationFrame(this.updateTimerDisplay)
     }
   }
 }
