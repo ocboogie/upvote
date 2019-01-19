@@ -1,12 +1,12 @@
 <template>
   <modal v-if="winners" type="unclosable" under-page-transition>
     <h2 class="title">{{ winnerText }}</h2>
-    <div v-for="winner in winners" :key="winner">{{ winner }}</div>
+    <div v-for="winner in winners" :key="winner.id">{{ winner.name }}</div>
   </modal>
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import Modal from "./Modal.vue"
 
 export default {
@@ -14,9 +14,7 @@ export default {
     Modal
   },
   computed: {
-    ...mapState({
-      winners: state => state.lobby.winners
-    }),
+    ...mapGetters(["winners"]),
     winnerText() {
       if (!this.winners.length) {
         return "No Winner"

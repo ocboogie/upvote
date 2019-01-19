@@ -4,7 +4,7 @@ import { emit } from "../../socket"
 export default {
   state: {
     posts: {},
-    players: [],
+    players: {},
     lobbyId: null,
     prompt: null,
     roundEndAt: null,
@@ -46,16 +46,18 @@ export default {
     },
 
     addPlayer(state, player) {
-      state.players.push(player)
+      Vue.set(state.players, player.id, player)
     },
-    setPlayers(state, players) {
-      state.players = players
+    addPlayers(state, players) {
+      players.forEach(player => {
+        Vue.set(state.players, player.id, player)
+      })
     },
-    removePlayer(state, player) {
-      state.players.splice(state.players.indexOf(player), 1)
+    removePlayer(state, playerId) {
+      Vue.delete(state.players, playerId)
     },
     clearPlayers(state) {
-      state.players = []
+      state.players = {}
     },
 
     setLobbyId(state, lobbyId) {
@@ -106,6 +108,12 @@ export default {
     }
   },
   getters: {
+    winners: state => {
+      if (!state.winners) {
+        return null
+      }
+      return state.winners.map(winnerId => state.players[winnerId])
+    },
     sortedPosts: state =>
       Object.values(state.posts).sort(
         (postA, postB) => postB.upvotes - postA.upvotes

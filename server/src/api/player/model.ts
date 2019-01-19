@@ -16,8 +16,8 @@ import Lobby from "../lobby/model"
 import Post from "../post/model"
 import Vote from "../vote/model"
 
-export interface IPlayer {
-  id: string
+export interface PlayerForClient {
+  id: number
   name: string
 }
 
@@ -70,6 +70,10 @@ export default class Player {
   })
   votes: Vote[]
 
+  forClient(): PlayerForClient {
+    return { id: this.id, name: this.name }
+  }
+
   async register(socket: WebSocket): Promise<boolean> {
     if (socket.id) {
       emit(socket, "alreadyInALobby")
@@ -97,7 +101,7 @@ export default class Player {
     broadcast(
       "newPlayer",
       this.lobbyId,
-      this.name,
+      this.forClient(),
       client => client.id !== this.id
     )
   }
@@ -124,7 +128,7 @@ export default class Player {
     broadcast(
       "removePlayer",
       this.lobbyId,
-      this.name,
+      this.id,
       client => client.id !== this.id
     )
   }

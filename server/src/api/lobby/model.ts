@@ -102,15 +102,15 @@ export default class Lobby {
     }
 
     let max = -Infinity
-    let winners: { [key: number]: string } = {}
+    const winners: Set<number> = new Set()
 
     posts.forEach(post => {
       if (post.upvotes > max) {
-        winners = {}
+        winners.clear()
         max = post.upvotes
       }
       if (post.upvotes === max) {
-        winners[post.authorId] = post.authorName
+        winners.add(post.authorId)
       }
     })
 
@@ -124,10 +124,10 @@ export default class Lobby {
 
     if (!winners) {
       hasPosts = false
-      winners = {}
+      winners = new Set()
     }
 
-    broadcast("roundEnded", this.id, Object.values(winners))
+    broadcast("roundEnded", this.id, Array.from(winners))
 
     await Lobby.r.update(this.id, { stage: "break" })
     if (hasPosts) {

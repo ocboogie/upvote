@@ -15,12 +15,9 @@ const store = new Vuex.Store({
   },
   actions: {
     createLobby(context, name) {
-      context.commit("setName", name)
-      context.commit("addPlayer", name)
       emit("createLobby", name)
     },
     joinLobby(context, name) {
-      context.commit("setName", name)
       emit("joinLobby", {
         name, // If empty string use undefined
         lobbyId: window.location.search.slice(1) || undefined
@@ -41,6 +38,10 @@ const store = new Vuex.Store({
       context.dispatch("reset")
       context.dispatch("openModal", "disconnected")
     },
+    connectedToALobby(context, { playerId, players }) {
+      context.commit("setPlayerId", playerId)
+      context.commit("addPlayers", players)
+    },
 
     gameStartedWs(context, payload) {
       context.commit("setPrompt", payload.prompt)
@@ -53,6 +54,10 @@ const store = new Vuex.Store({
       context.commit("setWinners", null)
     },
     joinedGameWs(context, payload) {
+      context.dispatch("connectedToALobby", {
+        playerId: payload.playerId,
+        players: payload.players
+      })
       context.commit("setPrompt", payload.prompt)
       context.commit(
         "setRoundEndAt",
@@ -66,20 +71,26 @@ const store = new Vuex.Store({
           return posts
         }, {})
       )
-      context.commit("setPlayers", payload.players)
       if (context.state.player.error) {
         context.commit("setJoinError", null)
       }
     },
     joinedLobbyWs(context, payload) {
+      context.dispatch("connectedToALobby", {
+        playerId: payload.playerId,
+        players: payload.players
+      })
       context.commit("setStage", "inLobby")
       context.commit("setLobbyId", payload.lobbyId)
-      context.commit("setPlayers", payload.players)
       if (context.state.player.error) {
         context.commit("setJoinError", null)
       }
     },
-    createdLobbyWs(context, lobbyId) {
+    createdLobbyWs(context, { lobbyId, player: me }) {
+      context.dispatch("connectedToALobby", {
+        playerId: me.id,
+        players: [me]
+      })
       context.commit("setStage", "inLobby")
       context.commit("setLobbyId", lobbyId)
       context.commit("setHosting", true)
@@ -97,9 +108,9 @@ const store = new Vuex.Store({
     roundEndedWs(context, winners) {
       context.commit("setWinners", winners)
     },
-    waitingForGameToFinishWs(context, players) {
+    waitingForGameToFinishWs(context, { players, playerId }) {
+      context.dispatch("connectedToALobby", { playerId, players })
       context.commit("setStage", "waitingForGameToFinish")
-      context.commit("setPlayers", players)
     }
   }
 })

@@ -1,5 +1,8 @@
 import Lobby from "./api/lobby/model"
 import Post, { PostForClient } from "./api/post/model"
+import { PlayerForClient } from "./api/player/model"
+
+type PlayerId = PlayerForClient["id"]
 
 declare global {
   namespace NodeJS {
@@ -15,15 +18,20 @@ declare global {
     }
     joinedGame: {
       posts: PostForClient[]
-      players: string[]
+      playerId: PlayerId
+      players: PlayerForClient[]
       prompt: string
       timeTillRoundEnd: number
     }
     joinedLobby: {
-      players: string[]
+      players: PlayerForClient[]
+      playerId: PlayerId
       lobbyId: string
     }
-    createdLobby: string
+    createdLobby: {
+      player: PlayerForClient
+      lobbyId: string
+    }
     leftLobby: undefined
     hostDisconnected: undefined
     newPost: PostForClient
@@ -33,13 +41,16 @@ declare global {
       modPost: Partial<PostForClient>
     }
     removePosts: number[]
-    newPlayer: string
-    removePlayer: string
+    newPlayer: PlayerForClient
+    removePlayer: PlayerId
     existingPlayer: undefined
     alreadyInALobby: undefined
     lobbyNotFound: undefined
-    roundEnded: string[]
-    waitingForGameToFinish: string[]
+    roundEnded: PlayerId[]
+    waitingForGameToFinish: {
+      players: PlayerForClient[]
+      playerId: PlayerId
+    }
   }
 
   type ClientEventNames = keyof ClientEvents

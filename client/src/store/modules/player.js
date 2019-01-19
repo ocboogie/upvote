@@ -1,15 +1,15 @@
 export default {
   state: {
     stage: "connecting",
-    name: null,
+    id: null,
     error: null
   },
   mutations: {
     setStage(state, playerStage) {
       state.stage = playerStage
     },
-    setName(state, name) {
-      state.name = name
+    setPlayerId(state, id) {
+      state.id = id
     },
     setJoinError(state, error) {
       state.error = error

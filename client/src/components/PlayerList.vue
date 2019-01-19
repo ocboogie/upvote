@@ -3,9 +3,8 @@
     <h3 class="header">Players</h3>
     <!-- TODO: Add a group transition -->
     <ul class="list">
-      <li v-for="name in players" :key="name" class="player">
-        {{ name
-        }}<span v-if="name === playersName" class="you-label"> (you)</span>
+      <li v-for="{ name, id } in players" :key="id" class="player">
+        {{ name }} <span v-if="id === playerId" class="you-label"> (you)</span>
       </li>
     </ul>
   </base-card>
@@ -14,10 +13,12 @@
 import { mapState } from "vuex"
 
 export default {
-  computed: mapState({
-    players: state => state.lobby.players,
-    playersName: state => state.player.name
-  })
+  computed: {
+    ...mapState({
+      players: state => state.lobby.players,
+      playerId: state => state.player.id
+    })
+  }
 }
 </script>
 <style lang="scss" scoped>

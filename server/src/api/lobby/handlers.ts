@@ -56,6 +56,6 @@ export default {
     }
 
     await Lobby.r.update(lobby, { hostId: this.id })
-    emit(this, "createdLobby", lobbyId)
+    emit(this, "createdLobby", { lobbyId, player: host.forClient() })
   }
 }

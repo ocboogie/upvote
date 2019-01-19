@@ -35,15 +35,16 @@ export default {
     if (lobby.stage === "break" || lobby.stage === "lobby") {
       const players = (await Player.r.find({
         lobbyId
-      })).map(otherPlayer => otherPlayer.name)
+      })).map(otherPlayer => otherPlayer.forClient())
 
       if (lobby.stage === "lobby") {
         emit(this, "joinedLobby", {
+          playerId: this.id,
           players,
           lobbyId
         })
       } else {
-        emit(this, "waitingForGameToFinish", players)
+        emit(this, "waitingForGameToFinish", { players, playerId: this.id })
       }
 
       return
@@ -63,9 +64,8 @@ export default {
         .getRawMany(),
       Player.r
         .createQueryBuilder()
-        .select("name")
         .where("lobbyId = :lobbyId", { lobbyId })
-        .getRawMany()
+        .getMany()
     ])
 
     if (lobby.stage === "waitingForPlayers") {
@@ -74,7 +74,8 @@ export default {
 
     emit(this, "joinedGame", {
       posts,
-      players: players.map(otherPlayer => otherPlayer.name),
+      players: players.map(otherPlayer => otherPlayer.forClient()),
+      playerId: this.id,
       prompt: lobby.activePrompt.text,
       timeTillRoundEnd: lobby.roundEndAt.getTime() - Date.now()
     })
