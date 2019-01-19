@@ -1,5 +1,5 @@
-import Lobby from "./api/lobby/model"
-import Post, { PostForClient } from "./api/post/model"
+import Lobby, { LobbyId } from "./api/lobby/model"
+import Post, { PostForClient, PostId } from "./api/post/model"
 import { PlayerForClient } from "./api/player/model"
 
 type PlayerId = PlayerForClient["id"]
@@ -7,7 +7,7 @@ type PlayerId = PlayerForClient["id"]
 declare global {
   namespace NodeJS {
     interface Global {
-      mainLobbyId: string
+      mainLobbyId: LobbyId
     }
   }
 
@@ -26,21 +26,21 @@ declare global {
     joinedLobby: {
       players: PlayerForClient[]
       playerId: PlayerId
-      lobbyId: string
+      lobbyId: LobbyId
     }
     createdLobby: {
       player: PlayerForClient
-      lobbyId: string
+      lobbyId: LobbyId
     }
     leftLobby: undefined
     hostDisconnected: undefined
     newPost: PostForClient
     updatePosts: Partial<PostForClient>[]
     updatePost: {
-      id: number
+      id: PostId
       modPost: Partial<PostForClient>
     }
-    removePosts: number[]
+    removePosts: PostId[]
     newPlayer: PlayerForClient
     removePlayer: PlayerId
     existingPlayer: undefined

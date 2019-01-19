@@ -13,12 +13,9 @@ import Player from "../player/model"
 import Lobby from "../lobby/model"
 import Vote from "../vote/model"
 
-export interface IPost {
-  id: number
-  content: string
-}
+export type PostId = Post["id"]
 
-export interface PostForClient extends IPost {
+export interface PostForClient extends Pick<Post, "id" | "content"> {
   author: string
   upvotes: number
 }

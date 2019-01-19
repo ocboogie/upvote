@@ -14,22 +14,7 @@ import Post from "../post/model"
 import Prompt from "../prompt/model"
 
 type LobbyStage = "game" | "lobby" | "break" | "waitingForPlayers"
-
-export interface ILobby {
-  id: string
-  prompt?: string
-  stage: LobbyStage
-  roundEndAt?: Date
-  roundTime: number
-}
-
-export interface NewLobby {
-  id: string
-  prompt?: string
-  stage?: LobbyStage
-  roundEndAt?: Date
-  roundTime?: number
-}
+export type LobbyId = Lobby["id"]
 
 @Entity()
 export default class Lobby {

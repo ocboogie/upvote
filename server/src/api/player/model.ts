@@ -16,10 +16,9 @@ import Lobby from "../lobby/model"
 import Post from "../post/model"
 import Vote from "../vote/model"
 
-export interface PlayerForClient {
-  id: number
-  name: string
-}
+export type PlayerId = Player["id"]
+
+export type PlayerForClient = Pick<Player, "id" | "name">
 
 @Entity()
 export default class Player {
