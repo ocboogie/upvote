@@ -29,10 +29,10 @@ export default {
         })
       })
     },
-    updatePost(state, payload) {
-      Vue.set(state.posts, payload.id, {
-        ...state.posts[payload.id],
-        ...payload.modPost
+    updatePost(state, { id, modPost }) {
+      Vue.set(state.posts, id, {
+        ...state.posts[id],
+        ...modPost
       })
     },
     removePosts(state, postIds) {
@@ -40,9 +40,9 @@ export default {
         Vue.delete(state.posts, postId)
       })
     },
-    vote(state, payload) {
-      const post = state.posts[payload.id]
-      Vue.set(post, "vote", payload.vote)
+    vote(state, { id, vote }) {
+      const post = state.posts[id]
+      Vue.set(post, "vote", vote)
     },
 
     addPlayer(state, player) {

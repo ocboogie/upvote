@@ -43,45 +43,33 @@ const store = new Vuex.Store({
       context.commit("addPlayers", players)
     },
 
-    gameStartedWs(context, payload) {
-      context.commit("setPrompt", payload.prompt)
-      context.commit(
-        "setRoundEndAt",
-        new Date(Date.now() + payload.timeTillRoundEnd)
-      )
+    gameStartedWs(context, { prompt, timeTillRoundEnd }) {
+      context.commit("setPrompt", prompt)
+      context.commit("setRoundEndAt", new Date(Date.now() + timeTillRoundEnd))
       context.commit("setStage", "inGame")
       context.commit("clearPosts")
       context.commit("setWinners", null)
     },
-    joinedGameWs(context, payload) {
-      context.dispatch("connectedToALobby", {
-        playerId: payload.playerId,
-        players: payload.players
-      })
-      context.commit("setPrompt", payload.prompt)
-      context.commit(
-        "setRoundEndAt",
-        new Date(Date.now() + payload.timeTillRoundEnd)
-      )
+    joinedGameWs(context, { playerId, players, posts, timeTillRoundEnd }) {
+      context.dispatch("connectedToALobby", { playerId, players })
+      context.commit("setPrompt", prompt)
+      context.commit("setRoundEndAt", new Date(Date.now() + timeTillRoundEnd))
       context.commit("setStage", "inGame")
       context.commit(
         "setPosts",
-        payload.posts.reduce((posts, post) => {
-          posts[post.id] = post
-          return posts
+        posts.reduce((postObj, post) => {
+          postObj[post.id] = post
+          return postObj
         }, {})
       )
       if (context.state.player.error) {
         context.commit("setJoinError", null)
       }
     },
-    joinedLobbyWs(context, payload) {
-      context.dispatch("connectedToALobby", {
-        playerId: payload.playerId,
-        players: payload.players
-      })
+    joinedLobbyWs(context, { playerId, players, lobbyId }) {
+      context.dispatch("connectedToALobby", { playerId, players })
       context.commit("setStage", "inLobby")
-      context.commit("setLobbyId", payload.lobbyId)
+      context.commit("setLobbyId", lobbyId)
       if (context.state.player.error) {
         context.commit("setJoinError", null)
       }
