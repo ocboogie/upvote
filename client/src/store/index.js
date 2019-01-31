@@ -50,7 +50,10 @@ const store = new Vuex.Store({
       context.commit("clearPosts")
       context.commit("setWinners", null)
     },
-    joinedGameWs(context, { playerId, players, posts, timeTillRoundEnd }) {
+    joinedGameWs(
+      context,
+      { playerId, players, posts, timeTillRoundEnd, prompt }
+    ) {
       context.dispatch("connectedToALobby", { playerId, players })
       context.commit("setPrompt", prompt)
       context.commit("setRoundEndAt", new Date(Date.now() + timeTillRoundEnd))
