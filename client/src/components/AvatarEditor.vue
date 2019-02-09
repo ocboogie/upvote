@@ -37,6 +37,9 @@ export default {
     },
     randomize() {
       this.$refs.avatar.randomize()
+    },
+    intoData() {
+      return this.$refs.avatar.intoData()
     }
   }
 }

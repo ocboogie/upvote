@@ -4,16 +4,17 @@
     xmlns:xlink="http://www.w3.org/1999/xlink"
     preserveAspectRatio="xMinYMin"
     :viewBox="`0 0 ${size} ${size}`"
+    :class="{ border: editable }"
   >
     <rect
-      v-for="(cell, pos) in filteredCells"
+      v-for="[cell, pos] in filteredCells"
       :key="pos"
       class="cell"
       :x="pos % size"
       :y="Math.floor(pos / size)"
       width="1"
       height="1"
-      :fill="color"
+      :fill="cellColor"
       :fill-opacity="cell ? 1 : 0"
       v-on="editable ? { click: () => toggle(pos) } : {}"
     />
@@ -45,7 +46,9 @@ export default {
   }),
   computed: {
     filteredCells() {
-      return this.cells.filter(cell => cell || this.editable)
+      return this.cells
+        .map((cell, pos) => [cell, pos])
+        .filter(([cell]) => cell || this.editable)
     }
   },
   watch: {
@@ -91,13 +94,20 @@ export default {
     },
     toggle(pos) {
       Vue.set(this.cells, pos, !this.cells[pos])
+    },
+    intoData() {
+      let data = this.cells.map(cell => (cell ? "1" : "0")).join("")
+
+      data += this.cellColor
+
+      return data
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-svg {
+.border {
   border: solid 1px black;
 }
 </style>
