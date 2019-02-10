@@ -4,7 +4,6 @@
     xmlns:xlink="http://www.w3.org/1999/xlink"
     preserveAspectRatio="xMinYMin"
     :viewBox="`0 0 ${size} ${size}`"
-    :class="{ border: editable }"
   >
     <rect
       v-for="[cell, pos] in filteredCells"
@@ -14,6 +13,8 @@
       :y="Math.floor(pos / size)"
       width="1"
       height="1"
+      stroke-width="0.05"
+      :stroke="cellColor"
       :fill="cellColor"
       :fill-opacity="cell ? 1 : 0"
       v-on="editable ? { click: () => toggle(pos) } : {}"
@@ -105,9 +106,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.border {
-  border: solid 1px black;
-}
-</style>
