@@ -41,14 +41,17 @@ export default {
 
     await Lobby.r.save(lobby)
   },
-  async createLobby(this: WebSocket, name: string) {
+  async createLobby(
+    this: WebSocket,
+    { name, avatar }: { name: string; avatar: string }
+  ) {
     const lobbyId = nanoid()
     const lobby = await Lobby.r.save({
       stage: "lobby",
       id: lobbyId
     })
 
-    const host = Player.r.create({ name, lobbyId, hosting: true })
+    const host = Player.r.create({ name, avatar, lobbyId, hosting: true })
 
     const successful = await host.register(this)
     if (!successful) {

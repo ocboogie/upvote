@@ -13,37 +13,42 @@
           </div>
         </transition>
       </div>
-      <form @submit="onSubmit">
-        <label class="name-label" for="nameInput">Enter your name</label>
-        <base-input
-          id="nameInput"
-          v-model="name"
-          :class="{ 'is-error': Boolean(error) }"
-          type="text"
-          class="name-input"
-          placeholder="Name"
-          autocomplete="off"
-        />
-        <transition name="scale-fade">
-          <span v-if="Boolean(error)" class="error">{{ error }}</span>
-        </transition>
-        <base-button
-          :disabled="playerStage === 'connecting'"
-          native-type="submit"
-          class="join-button"
-        >
-          Join
-        </base-button>
-        <base-button
-          :disabled="playerStage === 'connecting'"
-          native-type="button"
-          type="info"
-          class="private-game-button"
-          @click.native="customGame"
-        >
-          Create private game
-        </base-button>
-      </form>
+
+      <div class="user-input">
+        <avatar-editor ref="avatarEditor" class="avatar-section" />
+
+        <form class="form-section" @submit="onSubmit">
+          <label class="name-label" for="nameInput">Enter your name</label>
+          <base-input
+            id="nameInput"
+            v-model="name"
+            :class="{ 'is-error': Boolean(error) }"
+            type="text"
+            class="name-input"
+            placeholder="Name"
+            autocomplete="off"
+          />
+          <transition name="scale-fade">
+            <span v-if="Boolean(error)" class="error">{{ error }}</span>
+          </transition>
+          <base-button
+            :disabled="playerStage === 'connecting'"
+            native-type="submit"
+            class="join-button"
+          >
+            Join
+          </base-button>
+          <base-button
+            :disabled="playerStage === 'connecting'"
+            native-type="button"
+            type="info"
+            class="private-game-button"
+            @click.native="customGame"
+          >
+            Create private game
+          </base-button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -53,6 +58,7 @@ import { mapActions, mapState } from "vuex"
 import logoPath from "../assets/logo.png"
 import OrbitSpinner from "@/components/OrbitSpinner.vue"
 import Logo from "@/components/Logo.vue"
+import AvatarEditor from "@/components/AvatarEditor.vue"
 
 // This is use to prevent preloading when the image is already cached
 let alreadyLoadedImage = false
@@ -60,7 +66,8 @@ let alreadyLoadedImage = false
 export default {
   components: {
     OrbitSpinner,
-    Logo
+    Logo,
+    AvatarEditor
   },
   data: () => ({
     name: "",
@@ -95,13 +102,19 @@ export default {
       if (this.nameChcek()) {
         return
       }
-      this.joinLobby(this.name)
+
+      const avatarData = this.$refs.avatarEditor.intoData()
+
+      this.joinLobby({ name: this.name, avatar: avatarData })
     },
     customGame() {
       if (this.nameChcek()) {
         return
       }
-      this.createLobby(this.name)
+
+      const avatarData = this.$refs.avatarEditor.intoData()
+
+      this.createLobby({ name: this.name, avatar: avatarData })
     }
   }
 }
@@ -135,53 +148,71 @@ export default {
 .main-menu {
   background-color: $white;
   text-align: center;
-  button {
-    display: block;
-    margin: auto;
-    min-width: 100px;
-    margin-top: 0.5rem;
-  }
-  .join-button {
-    font-size: 1.5rem;
-  }
-  .private-game-button {
-    font-size: 1.3rem;
-  }
-}
+  .user-input {
+    display: flex;
+    max-height: 300px;
+    text-align: left;
 
-.name-label {
-  font-size: 1.85rem;
-  display: block;
-  margin: auto;
-  margin-bottom: 0.5rem;
-  text-align: center;
-}
-/* Using Id for a higher priority */
-#nameInput {
-  font-size: 2rem;
-  display: block;
-  max-width: 360px;
-  margin: auto;
-  margin-bottom: 0.5rem;
-  padding: 25px 0;
+    .avatar-section {
+      padding-right: 1rem;
+      border-right: 1px solid $border-lighter-color;
+      margin-left: auto;
 
-  text-align: center;
-  display: block;
-}
-.error {
-  font-size: 1.4rem;
-  color: $error-color;
-  display: block;
-}
-.scale-fade-enter-active {
-  transition: font-size 0.2s ease, opacity 0.1s ease-out 0.15s;
-}
-.scale-fade-leave-active {
-  transition: opacity 0.1s ease, font-size 0.2s ease-out 0.05s;
-}
-.scale-fade-enter,
-.scale-fade-leave-to {
-  opacity: 0;
-  font-size: 0rem;
+      .avatar-editor {
+        width: 165px;
+        height: 165px;
+      }
+    }
+    .form-section {
+      padding-left: 1rem;
+      flex-basis: 50%;
+
+      .name-label {
+        font-size: 1.85rem;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      /* Using Id for a higher priority fixing
+         weird priority issues in production */
+      #nameInput {
+        font-size: 2rem;
+        display: block;
+        max-width: 360px;
+        margin-bottom: 0.5rem;
+        padding: 25px 10px;
+      }
+
+      .error {
+        font-size: 1.4rem;
+        color: $error-color;
+        display: block;
+      }
+      .scale-fade-enter-active {
+        transition: font-size 0.2s ease, opacity 0.1s ease-out 0.15s;
+      }
+      .scale-fade-leave-active {
+        transition: opacity 0.1s ease, font-size 0.2s ease-out 0.05s;
+      }
+      .scale-fade-enter,
+      .scale-fade-leave-to {
+        opacity: 0;
+        font-size: 0rem;
+      }
+
+      .join-button,
+      .private-game-button {
+        display: block;
+        margin-top: 0.5rem;
+        min-width: 100px;
+      }
+      .join-button {
+        font-size: 1.5rem;
+      }
+      .private-game-button {
+        font-size: 1.3rem;
+      }
+    }
+  }
 }
 </style>

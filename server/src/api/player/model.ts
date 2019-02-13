@@ -18,7 +18,7 @@ import Vote from "../vote/model"
 
 export type PlayerId = Player["id"]
 
-export type PlayerForClient = Pick<Player, "id" | "name">
+export type PlayerForClient = Pick<Player, "id" | "name" | "avatar">
 
 @Entity()
 export default class Player {
@@ -50,6 +50,9 @@ export default class Player {
   name: string
 
   @Column()
+  avatar: string
+
+  @Column()
   lobbyId: string
 
   @Column({ default: false })
@@ -70,7 +73,7 @@ export default class Player {
   votes: Vote[]
 
   forClient(): PlayerForClient {
-    return { id: this.id, name: this.name }
+    return { id: this.id, name: this.name, avatar: this.avatar }
   }
 
   async register(socket: WebSocket): Promise<boolean> {

@@ -9,9 +9,11 @@ export default {
     this: WebSocket,
     {
       name,
+      avatar,
       lobbyId = global.mainLobbyId
     }: {
       name: string
+      avatar: string
       lobbyId?: string
     }
   ) {
@@ -25,7 +27,7 @@ export default {
       return
     }
 
-    const player = Player.r.create({ name, lobbyId })
+    const player = Player.r.create({ name, lobbyId, avatar })
 
     const successful = await player.register(this)
     if (!successful) {

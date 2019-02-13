@@ -14,11 +14,12 @@ const store = new Vuex.Store({
     player
   },
   actions: {
-    createLobby(context, name) {
-      emit("createLobby", name)
+    createLobby(context, { name, avatar }) {
+      emit("createLobby", { name, avatar })
     },
-    joinLobby(context, name) {
+    joinLobby(context, { name, avatar }) {
       emit("joinLobby", {
+        avatar,
         name, // If empty string use undefined
         lobbyId: window.location.search.slice(1) || undefined
       })
