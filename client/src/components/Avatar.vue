@@ -14,9 +14,10 @@
       width="1"
       height="1"
       stroke-width="0.05"
-      :stroke="cellColor"
-      :fill="cellColor"
+      :stroke="rainbow ? null : cellColor"
+      :fill="rainbow ? null : cellColor"
       :fill-opacity="cell ? 1 : 0"
+      :class="{ rainbow }"
       v-on="editable ? { click: () => toggle(pos) } : {}"
     />
   </svg>
@@ -38,6 +39,10 @@ export default {
     color: {
       type: String,
       default: null
+    },
+    rainbow: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -106,3 +111,49 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.rainbow {
+  animation: rainbow 2.5s linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes rainbow {
+  100%,
+  0% {
+    fill: rgb(255, 0, 0);
+  }
+  8% {
+    fill: rgb(255, 127, 0);
+  }
+  16% {
+    fill: rgb(255, 255, 0);
+  }
+  25% {
+    fill: rgb(127, 255, 0);
+  }
+  33% {
+    fill: rgb(0, 255, 0);
+  }
+  41% {
+    fill: rgb(0, 255, 127);
+  }
+  50% {
+    fill: rgb(0, 255, 255);
+  }
+  58% {
+    fill: rgb(0, 127, 255);
+  }
+  66% {
+    fill: rgb(0, 0, 255);
+  }
+  75% {
+    fill: rgb(127, 0, 255);
+  }
+  83% {
+    fill: rgb(255, 0, 255);
+  }
+  91% {
+    fill: rgb(255, 0, 127);
+  }
+}
+</style>
