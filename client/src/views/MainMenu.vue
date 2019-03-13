@@ -14,11 +14,8 @@
         </transition>
       </div>
 
-      <div class="user-input">
-        <avatar-editor ref="avatarEditor" class="avatar-section" />
-
+      <base-card class="user-input">
         <form class="form-section" @submit="onSubmit">
-          <label class="name-label" for="nameInput">Enter your name</label>
           <base-input
             id="nameInput"
             v-model="name"
@@ -28,9 +25,7 @@
             placeholder="Name"
             autocomplete="off"
           />
-          <transition name="scale-fade">
-            <span v-if="Boolean(error)" class="error">{{ error }}</span>
-          </transition>
+          <avatar-editor ref="avatarEditor" class="avatar-editor" />
           <base-button
             :disabled="playerStage === 'connecting'"
             native-type="submit"
@@ -38,6 +33,9 @@
           >
             Join
           </base-button>
+          <transition name="scale-fade">
+            <span v-if="Boolean(error)" class="error">{{ error }}</span>
+          </transition>
           <base-button
             :disabled="playerStage === 'connecting'"
             native-type="button"
@@ -48,7 +46,7 @@
             Create private game
           </base-button>
         </form>
-      </div>
+      </base-card>
     </div>
   </div>
 </template>
@@ -148,29 +146,15 @@ export default {
 .main-menu {
   background-color: $white;
   text-align: center;
+
   .user-input {
-    display: flex;
-    max-height: 300px;
-    text-align: left;
-
-    .avatar-section {
-      padding-right: 1rem;
-      border-right: 1px solid $border-lighter-color;
-      margin-left: auto;
-
-      .avatar-editor {
-        width: 165px;
-        height: 165px;
-      }
-    }
+    max-width: 300px;
+    margin: auto;
     .form-section {
-      padding-left: 1rem;
-      flex-basis: 50%;
-
-      .name-label {
-        font-size: 1.85rem;
-        display: block;
-        margin-bottom: 0.5rem;
+      .avatar-editor {
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid $border-lighter-color;
       }
 
       /* Using Id for a higher priority fixing
@@ -178,24 +162,28 @@ export default {
       #nameInput {
         font-size: 2rem;
         display: block;
-        max-width: 360px;
+        width: 100%;
         margin-bottom: 0.5rem;
         padding: 25px 10px;
       }
 
       .error {
+        margin-top: 0.5rem;
         font-size: 1.4rem;
         color: $error-color;
         display: block;
       }
       .scale-fade-enter-active {
-        transition: font-size 0.2s ease, opacity 0.1s ease-out 0.15s;
+        transition: font-size 0.2s ease, opacity 0.1s ease-out 0.15s,
+          margin-top 0.2s ease;
       }
       .scale-fade-leave-active {
-        transition: opacity 0.1s ease, font-size 0.2s ease-out 0.05s;
+        transition: opacity 0.1s ease, font-size 0.2s ease-out 0.05s,
+          margin-top 0.2s ease-out 0.05s;
       }
       .scale-fade-enter,
       .scale-fade-leave-to {
+        margin-top: 0;
         opacity: 0;
         font-size: 0rem;
       }
@@ -204,7 +192,7 @@ export default {
       .private-game-button {
         display: block;
         margin-top: 0.5rem;
-        min-width: 100px;
+        width: 100%;
       }
       .join-button {
         font-size: 1.5rem;
