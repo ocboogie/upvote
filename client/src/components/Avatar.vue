@@ -18,7 +18,15 @@
       :fill="rainbow ? null : cellColor"
       :fill-opacity="cell ? 1 : 0"
       :class="{ rainbow }"
-      v-on="editable ? { click: () => toggle(pos) } : {}"
+      v-on="
+        // Enable events when editable
+        editable
+          ? {
+              mousedown: event => cellClicked(event, pos),
+              mouseover: event => cellHovered(event, pos)
+            }
+          : {}
+      "
     />
   </svg>
 </template>
@@ -48,7 +56,12 @@ export default {
   data: () => ({
     size: 5,
     cells: [],
-    cellColor: null
+    cellColor: null,
+    // Draw states
+    // null: not drawing
+    // true: drawing
+    // false: removing
+    dragDrawState: null
   }),
   computed: {
     filteredCells() {
@@ -80,6 +93,9 @@ export default {
       }
     }
   },
+  mounted() {
+    window.addEventListener("mouseup", this.resetDragDrawState)
+  },
   methods: {
     randomize() {
       const sizeHalf = Math.ceil(this.size / 2)
@@ -98,6 +114,20 @@ export default {
         }
       }
     },
+    resetDragDrawState() {
+      this.lastCellClickedState = null
+    },
+    cellClicked(event, pos) {
+      if (event.button === 0) {
+        this.lastCellClickedState = !this.cells[pos]
+        this.toggle(pos)
+      }
+    },
+    cellHovered(event, pos) {
+      if (this.lastCellClickedState !== null && event.buttons === 1) {
+        Vue.set(this.cells, pos, this.lastCellClickedState)
+      }
+    },
     toggle(pos) {
       Vue.set(this.cells, pos, !this.cells[pos])
     },
@@ -112,6 +142,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+svg {
+  user-select: none;
+}
+
 .rainbow {
   animation: rainbow 2.5s linear;
   animation-iteration-count: infinite;
