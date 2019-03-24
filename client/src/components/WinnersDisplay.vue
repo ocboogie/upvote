@@ -1,11 +1,15 @@
 <template>
   <modal v-if="winners" type="unclosable" under-page-transition>
-    <h2 class="title">{{ winnerText }}</h2>
-    <div class="winners">
-      <div v-for="winner in winners" :key="winner.id" class="winner">
-        <avatar class="avatar" :avatar-data="winner.avatar" rainbow />
-        <div class="name">{{ winner.name }}</div>
+    <div>
+      <confetti v-if="winners.length" />
+      <h2 class="title">{{ winnerText }}</h2>
+      <div class="winners">
+        <div v-for="winner in winners" :key="winner.id" class="winner">
+          <avatar class="avatar" :avatar-data="winner.avatar" rainbow />
+          <div class="name">{{ winner.name }}</div>
+        </div>
       </div>
+      <crying-emoji v-if="!winners.length" class="crying-emoji" alt="" />
     </div>
   </modal>
 </template>
@@ -14,11 +18,15 @@
 import { mapGetters } from "vuex"
 import Modal from "./Modal.vue"
 import Avatar from "./Avatar.vue"
+import Confetti from "./Confetti.vue"
+import CryingEmoji from "./emojis/cry.vue"
 
 export default {
   components: {
     Modal,
-    Avatar
+    Avatar,
+    Confetti,
+    CryingEmoji
   },
   computed: {
     ...mapGetters(["winners"]),
@@ -52,5 +60,8 @@ export default {
       border: 1px solid $border-lighter-color;
     }
   }
+}
+.crying-emoji {
+  width: 150px;
 }
 </style>
