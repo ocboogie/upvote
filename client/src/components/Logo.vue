@@ -2,10 +2,10 @@
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 832.34 1000"
-    aria-labelledby="logo"
+    aria-labelledby="logo-title"
     role="presentation"
   >
-    <title>Logo</title>
+    <title id="logo-title">Logo</title>
     <path
       fill="#3498db"
       d="M537.46,0H709.6L509.09,569.75H323.25L124.2,0H295.86L415.68,419.61"
