@@ -129,6 +129,7 @@ export default {
   .body {
     border-left: 1px solid $border-lighter-color;
     padding: 10px;
+    word-break: break-word;
 
     min-height: 100%;
     .author {
