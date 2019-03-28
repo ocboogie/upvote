@@ -19,11 +19,13 @@
             <base-input
               id="promptList"
               v-model="prompts"
-              placeholder="Type your prompts here separated by commas"
+              placeholder="Type your prompts here separated by new lines"
               multiline
             />
             <small class="help-text">
-              Example: "prompt 1, prompt 2, prompt 3".
+              Example: "prompt 1 <br />
+              prompt 2 <br />
+              prompt 3".
             </small>
           </div>
         </div>

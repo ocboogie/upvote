@@ -14,7 +14,7 @@ export default {
     }: { prompts: string; roundTime: number }
   ) {
     const prompts: Prompt[] = promptsString
-      .split(",")
+      .split("\n")
       .map(prompt =>
         Prompt.r.create({ lobbyId: this.lobbyId, text: prompt.trim() })
       )
