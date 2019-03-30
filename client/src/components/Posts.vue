@@ -14,7 +14,7 @@ export default {
     Post
   },
   computed: mapGetters({
-    posts: "sortedPosts"
+    posts: "sortedNormalizedPosts"
   })
 }
 </script>

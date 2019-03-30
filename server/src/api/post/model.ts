@@ -15,8 +15,8 @@ import Vote from "../vote/model"
 
 export type PostId = Post["id"]
 
-export interface PostForClient extends Pick<Post, "id" | "content"> {
-  author: string
+export interface PostForClient
+  extends Pick<Post, "id" | "content" | "authorId"> {
   upvotes: number
 }
 

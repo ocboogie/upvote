@@ -114,9 +114,16 @@ export default {
       }
       return state.winners.map(winnerId => state.players[winnerId])
     },
-    sortedPosts: state =>
-      Object.values(state.posts).sort(
-        (postA, postB) => postB.upvotes - postA.upvotes
-      )
+    sortedNormalizedPosts: state =>
+      Object.values(state.posts)
+        .sort((postA, postB) => postB.upvotes - postA.upvotes)
+        .map(post => {
+          const author = state.players[post.authorId]
+          return {
+            ...post,
+            author: author.name,
+            avatar: author.avatar
+          }
+        })
   }
 }
