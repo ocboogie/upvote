@@ -19,7 +19,6 @@ export default {
   border-radius: 4px;
   border: 1px solid $border-lighter-color;
   background-color: $white;
-  overflow: hidden;
   color: $text-primary-color;
   &.paddingless {
     padding: 0rem;

@@ -6,8 +6,14 @@
         class="arrow upvote"
         @click="upvote"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="12.5 12.5 25 25">
-          <path d="M33.3 28.7L25 20.4l-8.3 8.3-1.4-1.4 9.7-9.7 9.7 9.7z" />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 15">
+          <path
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="5"
+            d="m2.5 12.5l10-10 10 10"
+          />
         </svg>
       </button>
       {{ upvotes }}
@@ -16,21 +22,32 @@
         class="arrow downvote"
         @click="downvote"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="12.5 12.5 25 25">
-          <path d="M25 32.4l-9.7-9.7 1.4-1.4 8.3 8.3 8.3-8.3 1.4 1.4z" />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 15">
+          <path
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="5"
+            d="m2.5 2.5l10 10 10-10"
+          />
         </svg>
       </button>
     </div>
-    <div class="body">
-      {{ content }}
-      <div class="author">By {{ author }}</div>
+    <div class="body">{{ content }}</div>
+    <div class="author">
+      <div class="avatar-container"><avatar :avatar-data="avatar" /></div>
+      {{ author }}
     </div>
   </base-card>
 </template>
 <script>
 import { mapActions } from "vuex"
+import Avatar from "./Avatar.vue"
 
 export default {
+  components: {
+    Avatar
+  },
   props: {
     upvotes: {
       type: Number,
@@ -41,6 +58,10 @@ export default {
       required: true
     },
     author: {
+      type: String,
+      required: true
+    },
+    avatar: {
       type: String,
       required: true
     },
@@ -72,56 +93,70 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$arrowCircleSize: 31.25px;
+$avatarCircleSize: 65px;
+
 .post {
-  margin-bottom: 1rem;
+  margin: 2rem 0;
+  min-height: 85px;
 
   display: flex;
   flex-direction: row;
   .upvotes {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px;
+    justify-content: center;
+    position: relative;
+    min-width: 40px;
     .arrow {
-      padding: 0;
+      position: absolute;
+      border-radius: 50%;
       border: none;
       background-color: $white;
-      width: 22.5px;
-      height: 22.5px;
+      width: $arrowCircleSize;
+      height: $arrowCircleSize;
       transition: color 0.1s ease;
       outline: none;
-      border-radius: 2.5px;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.09);
+      stroke: #3d3d3d;
+      padding: 3px;
       cursor: pointer;
+
+      & > svg {
+        display: block;
+        margin: auto;
+      }
 
       &:focus {
         background-color: darken($white, 7.5%);
       }
 
       &.upvote {
+        top: -$arrowCircleSize / 5 * 2;
         &.is-selected {
-          fill: $primary-color;
+          stroke: $primary-color;
         }
 
         &:hover {
-          fill: lighten($primary-color, 10%);
+          stroke: lighten($primary-color, 10%);
         }
 
         &:active {
-          fill: darken($primary-color, 10%);
+          stroke: darken($primary-color, 10%);
         }
       }
       &.downvote {
+        bottom: -$arrowCircleSize / 5 * 2;
         &.is-selected {
-          fill: $error-color;
+          stroke: $error-color;
         }
 
         &:hover {
-          fill: lighten($error-color, 5%);
+          stroke: lighten($error-color, 5%);
         }
 
         &:active {
-          fill: darken($error-color, 10%);
+          stroke: darken($error-color, 10%);
         }
       }
     }
@@ -130,11 +165,20 @@ export default {
     border-left: 1px solid $border-lighter-color;
     padding: 10px;
     word-break: break-word;
-
-    min-height: 100%;
-    .author {
-      font-size: 0.9rem;
-      color: lighten($text-primary-color, 35%);
+    flex-grow: 1;
+  }
+  .author {
+    position: relative;
+    text-align: center;
+    padding-right: 5px;
+    margin-top: -$avatarCircleSize / 3;
+    .avatar-container {
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.09);
+      border-radius: 50%;
+      background-color: $white;
+      padding: 11px;
+      width: $avatarCircleSize;
+      height: $avatarCircleSize;
     }
   }
 }
