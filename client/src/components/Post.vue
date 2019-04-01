@@ -36,7 +36,7 @@
     <div class="body">{{ content }}</div>
     <div class="author">
       <div class="avatar-container"><avatar :avatar-data="avatar" /></div>
-      {{ author }}
+      <div class="name-container">{{ author }}</div>
     </div>
   </base-card>
 </template>
@@ -168,11 +168,21 @@ $avatarCircleSize: 65px;
     flex-grow: 1;
   }
   .author {
-    position: relative;
+    max-width: 110px;
     text-align: center;
     padding-right: 5px;
     margin-top: -$avatarCircleSize / 3;
+
+    .name-container {
+      margin-top: 0.1rem;
+      width: 100%;
+      height: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
     .avatar-container {
+      margin: auto;
       box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.09);
       border-radius: 50%;
       background-color: $white;
