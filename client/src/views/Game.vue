@@ -34,6 +34,13 @@ export default {
   display: flex;
   max-width: 1000px;
   margin: auto;
+  @include small {
+    flex-direction: column;
+    .player-list-container {
+      order: -1;
+      margin-bottom: 1rem;
+    }
+  }
   .content-body {
     flex: 0.7;
     margin-right: 0.5rem;

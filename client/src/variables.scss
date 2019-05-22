@@ -8,3 +8,11 @@ $text-muted: #6c757d;
 
 $border-base-color: #dcdfe6;
 $border-lighter-color: #ebeef5;
+
+$smallScreenSize: 970px;
+
+@mixin small() {
+  @media only screen and (max-width: $smallScreenSize) {
+    @content;
+  }
+}

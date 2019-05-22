@@ -143,5 +143,17 @@ export default {
       text-align: center;
     }
   }
+
+  @include small {
+    flex-direction: column;
+    .player-list {
+      order: -1;
+      margin-bottom: 1rem;
+    }
+    .lobby {
+      margin: auto;
+      max-width: none;
+    }
+  }
 }
 </style>
