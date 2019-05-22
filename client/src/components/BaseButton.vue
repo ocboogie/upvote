@@ -1,6 +1,9 @@
 <template>
   <button
-    :class="[{ loading }, `button-type-${type}`]"
+    :class="[
+      { loading, 'flush-left': flushLeft, 'flush-right': flushRight },
+      `button-type-${type}`
+    ]"
     :disabled="loading"
     :type="nativeType"
     class="base-button"
@@ -24,7 +27,9 @@ export default {
     nativeType: {
       type: String,
       default: "button"
-    }
+    },
+    flushLeft: { type: Boolean, default: false },
+    flushRight: { type: Boolean, default: false }
   }
 }
 </script>
@@ -44,6 +49,14 @@ export default {
   padding: 12px 20px;
   font-size: 14px;
   border-radius: 4px;
+  &.flush-right {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  &.flush-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
   &.loading {
     min-width: 100px;
     & > * {

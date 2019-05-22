@@ -10,6 +10,7 @@
     v-else
     :value="value"
     class="base-input"
+    :class="{ 'flush-left': flushLeft, 'flush-right': flushRight }"
     @input="$emit('input', $event.target.value)"
   />
 </template>
@@ -17,7 +18,9 @@
 export default {
   props: {
     value: { type: [String, Number], default: "" },
-    multiline: { type: Boolean, default: false }
+    multiline: { type: Boolean, default: false },
+    flushLeft: { type: Boolean, default: false },
+    flushRight: { type: Boolean, default: false }
   }
 }
 </script>
@@ -30,6 +33,14 @@ export default {
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   height: 40px;
   padding: 12px 15px;
+  &.flush-right {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  &.flush-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
   &.is-multiline {
     height: auto;
     display: block;
