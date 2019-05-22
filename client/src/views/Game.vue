@@ -3,7 +3,7 @@
     <div class="content-body">
       <info-display />
 
-      <post-form class="post-form" />
+      <post-form full-width class="post-form" />
       <posts />
     </div>
     <div class="player-list-container"><player-list /></div>
